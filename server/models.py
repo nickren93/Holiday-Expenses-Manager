@@ -47,7 +47,7 @@ class Holiday(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    duration = db.Column(db.String, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String, nullable=False)
 
     expenses = db.relationship(
@@ -65,7 +65,7 @@ class Holiday(db.Model, SerializerMixin):
 
     @validates("name", "duration", "description")
     def validate_all_colums_for_holidays(self, key, value):
-        if value is None or value.strip()=="":
+        if value is None or value == 0 or value.strip()=="":
             raise ValueError("A holiday must have a name, a length of duration and a description.")
         return value
 
@@ -114,6 +114,6 @@ class Expense(db.Model, SerializerMixin):
 
     @validates("amount", "date", "user_id", "holiday_id", 'category_id')
     def validate_all_columns(self, key, value):
-        if value is None or value == 0.0:
+        if value is None or value == 0.0 or value.strip()=="":
             raise ValueError("An expense must have a corresponding amount, date, user id,  holiday id and category id.")
         return value

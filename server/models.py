@@ -47,7 +47,7 @@ class Holiday(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    duration = db.Column(db.Integer, nullable=False)
+    # duration = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String, nullable=False)
 
     expenses = db.relationship(
@@ -61,11 +61,11 @@ class Holiday(db.Model):
         'Category', secondary='expenses', viewonly=True, back_populates='holidays'
     )
 
-    serialize_rules = ('-expenses','-users', '-categories') 
+    # serialize_rules = ('-expenses','-users', '-categories') 
 
-    @validates("name", "duration", "description")
+    @validates("name", "description")
     def validate_all_colums_for_holidays(self, key, value):
-        if value is None or value == 0 or value.strip()=="":
+        if value is None or value.strip()=="":
             raise ValueError("A holiday must have a name, a length of duration and a description.")
         return value
 
@@ -87,7 +87,7 @@ class Category(db.Model):
         'Holiday', secondary='expenses', viewonly=True, back_populates='categories'
     )
 
-    serialize_rules = ('-expenses','-users', '-holidays') 
+    # serialize_rules = ('-expenses','-users', '-holidays') 
 
     @validates("name", "description")
     def validate_name_description_for_categories(self, key, value):
@@ -110,7 +110,7 @@ class Expense(db.Model):
     holiday = db.relationship('Holiday', back_populates='expenses')
     category = db.relationship('Category', back_populates='expenses')
 
-    serialize_rules = ('-user.expenses', '-holiday.expenses', '-category.expenses')
+    # serialize_rules = ('-user.expenses', '-holiday.expenses', '-category.expenses')
 
     @validates("amount", "date", "user_id", "holiday_id", 'category_id')
     def validate_all_columns(self, key, value):

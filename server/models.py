@@ -1,11 +1,11 @@
-from sqlalchemy_serializer import SerializerMixin
+# from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from config import db, bcrypt
 
 # Models go here!
-class User(db.Model, SerializerMixin):
+class User(db.Model):
     __tablename__='users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -42,7 +42,7 @@ class User(db.Model, SerializerMixin):
             self._password_hash, password.encode('utf-8'))
     
 
-class Holiday(db.Model, SerializerMixin):
+class Holiday(db.Model):
     __tablename__='holidays'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +69,7 @@ class Holiday(db.Model, SerializerMixin):
             raise ValueError("A holiday must have a name, a length of duration and a description.")
         return value
 
-class Category(db.Model, SerializerMixin):
+class Category(db.Model):
     __tablename__='categories'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -95,7 +95,7 @@ class Category(db.Model, SerializerMixin):
             raise ValueError("A category must have a name and a description.")
         return value
 
-class Expense(db.Model, SerializerMixin):
+class Expense(db.Model):
     __tablename__='expenses'
 
     id = db.Column(db.Integer, primary_key=True)

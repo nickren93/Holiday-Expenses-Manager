@@ -92,7 +92,7 @@ class CheckSession(Resource):
             if user:
                 for holiday in user.holidays:
                     holiday_dict = holiday_schema.dump(holiday)
-                    # only this user's logs
+                    # only this user's expenses will be included in holidays
                     user_expenses = [
                         expense_schema.dump(expense)
                         for expense in holiday.expenses
@@ -103,7 +103,7 @@ class CheckSession(Resource):
 
                 for category in user.categories:
                     category_dict = category_schema.dump(category)
-                    # only this user's logs
+                    # only this user's expenses will be included in categories
                     user_expenses = [
                         expense_schema.dump(expense)
                         for expense in category.expenses
@@ -112,8 +112,10 @@ class CheckSession(Resource):
                     category_dict["expenses"] = user_expenses
                     user_data["categories"].append(category_dict)
             
-            return user_data, 200
-
+                return user_data, 200
+            
+            return {'error': 'User cannot be found!'}, 401
+        
         return {'error': 'Please Log in first!'}, 401
 
 
@@ -128,38 +130,33 @@ class CheckSession(Resource):
 
 #         if user and user.authenticate(password):
 #             session['user_id'] = user.id
-#             # return user.to_dict(), 200
-#             # --------------------------------------
-#             user_data = {
-#                 "id": user.id,
-#                 "username": user.username,
-#                 "age": user.age,
-#                 "workouts": []
-#             }
 
-#             for workout in user.workouts:
-#                 user_logs = [
-#                     {
-#                         "id": log.id,
-#                         "note": log.note,
-#                         "date": log.date,
-#                         "user_id": log.user_id,
-#                         "workout_id": log.workout_id
-#                     }
-#                     for log in workout.logs
-#                     if log.user_id == user.id #!!!!!!!!!
+#             user_data = user_schema.dump(user)
+#             user_data["holidays"] = []
+#             user_data["categories"] = []
+
+#             for holiday in user.holidays:
+#                 holiday_dict = holiday_schema.dump(holiday)
+#                 user_expenses = [
+#                     expense_schema.dump(expense)
+#                     for expense in holiday.expenses
+#                     if expense.user_id == user.id
 #                 ]
-#                 workout_dict = {
-#                     "id": workout.id,
-#                     "name": workout.name,
-#                     "difficulty": workout.difficulty,
-#                     "description": workout.description,
-#                     "logs": user_logs
-#                 }
-#                 user_data["workouts"].append(workout_dict) 
+#                 holiday_dict["expenses"] = user_expenses
+#                 user_data["holidays"].append(holiday_dict)
+
+#             for category in user.categories:
+#                 category_dict = category_schema.dump(category)
+#                 user_expenses = [
+#                     expense_schema.dump(expense)
+#                     for expense in category.expenses
+#                     if expense.user_id == user.id
+#                 ]
+#                 category_dict["expenses"] = user_expenses
+#                 user_data["categories"].append(category_dict)
 
 #             return user_data, 200
-#             # --------------------------------------
+
 #         return {'error': 'Invalid username or password'}, 401
 
 

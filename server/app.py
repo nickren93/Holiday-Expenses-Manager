@@ -81,41 +81,40 @@ def check_if_logged_in():
 def index():
     return '<h1>Holiday Expenses Manager - Server</h1>'
 
+class CheckSession(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
+            user_data = user_schema.dump(user)
+            user_data["holidays"] = []
+            user_data["categories"] = []
+            if user:
+                for holiday in user.holidays:
+                    holiday_dict = holiday_schema.dump(holiday)
+                    # only this user's logs
+                    user_expenses = [
+                        expense_schema.dump(expense)
+                        for expense in holiday.expenses
+                        if expense.user_id == user.id
+                    ]
+                    holiday_dict["expenses"] = user_expenses
+                    user_data["holidays"].append(holiday_dict)
 
-# class CheckSession(Resource):
-#     def get(self):
-#         user_id = session.get('user_id')
-#         if user_id:
-#             user = User.query.filter(User.id == user_id).first()
-#             user_data = user_schema.dump(user)
-#             user_data["holidays"] = []
-#             user_data["categories"] = []
-#             if user:
-#                 for holiday in user.holidays:
-#                     holiday_dict = holiday_schema.dump(holiday)
-#                     # only this user's logs
-#                     user_expenses = [
-#                         expense_schema.dump(expense)
-#                         for expense in holiday.expenses
-#                         if expense.user_id == user.id
-#                     ]
-#                     holiday_dict["expenses"] = user_expenses
-#                     user_data["holidays"].append(holiday_dict)
-
-#                 for category in user.categories:
-#                     category_dict = category_schema.dump(category)
-#                     # only this user's logs
-#                     user_expenses = [
-#                         expense_schema.dump(expense)
-#                         for expense in category.expenses
-#                         if expense.user_id == user.id
-#                     ]
-#                     category_dict["expenses"] = user_expenses
-#                     user_data["categories"].append(category_dict)
+                for category in user.categories:
+                    category_dict = category_schema.dump(category)
+                    # only this user's logs
+                    user_expenses = [
+                        expense_schema.dump(expense)
+                        for expense in category.expenses
+                        if expense.user_id == user.id
+                    ]
+                    category_dict["expenses"] = user_expenses
+                    user_data["categories"].append(category_dict)
             
-#             return user_data, 200
+            return user_data, 200
 
-#         return {'error': 'Please Log in first!'}, 401
+        return {'error': 'Please Log in first!'}, 401
 
 
 # class Login(Resource):
@@ -298,7 +297,7 @@ def index():
        
 
 
-# api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 # api.add_resource(Login, '/login', endpoint='login')
 # api.add_resource(Logout, '/logout', endpoint='logout')
 # api.add_resource(Signup, '/signup', endpoint='signup')

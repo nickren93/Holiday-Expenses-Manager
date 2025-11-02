@@ -101,6 +101,7 @@ class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
     date = db.Column(db.String, nullable=False)
+    note = db.Column(db.String, default="No note provided")
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     holiday_id = db.Column(db.Integer, db.ForeignKey('holidays.id'))

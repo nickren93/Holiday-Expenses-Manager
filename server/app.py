@@ -251,65 +251,70 @@ class Categories(Resource):
             db.session.rollback()
             return {'errors': ["validation errors"]}, 400
 
-# class Logs(Resource):
+class Expenses(Resource):
 
-#     def post(self):
-#         data = request.get_json()
-#         # user = User.query.filter(User.id == data.get('user_id')).first()
-#         workout = Workout.query.filter(Workout.id == data.get('workout_id')).first()
+    def post(self):
+        data = request.get_json()
+        holiday = Holiday.query.filter(Holiday.id == data.get('holiday_id')).first()
+        category = Category.query.filter(Category.id == data.get('category_id')).first()
 
-#         if workout and session.get("user_id"):
-#             try:
-#                 new_log = Log(note=data.get('note'), date=data.get('date'), \
-#                                 user_id=session.get("user_id"), \
-#                                 workout_id=data.get('workout_id'))
-#                 db.session.add(new_log)
-#                 db.session.commit()
-#                 return make_response(new_log.to_dict(), 201)
-#             except ValueError:
-#                 db.session.rollback()
-#                 return {'errors': ["validation errors"]}, 400
+        if holiday and category and session.get("user_id"):
+            try:
+                new_expense = Expense(amount = data.get('amount'), date=data.get('date'), \
+                                        note=data.get('note'), \
+                                        user_id=session.get("user_id"), \
+                                        holiday_id=data.get('holiday_id'), \
+                                        category_id=data.get('category_id'))
+                db.session.add(new_expense)
+                db.session.commit()
+
+                new_expense_data = expense_schema.dump(new_expense)
+                return new_expense_data, 201
+            except ValueError:
+                db.session.rollback()
+                return {'errors': ["validation errors"]}, 400
             
-#         return {'errors': ["validation errors"]}, 400
+        return {'errors': ["validation errors"]}, 400
     
-#     def patch(self):
-#         data = request.get_json()
-#         log = Log.query.filter(Log.id == data.get('id')).first()
-#         #------------------------------------------------------------------
-#         user_id = session.get("user_id")
-#         user = User.query.filter(User.id == user_id).first()
-#         #-----------------------------------------------------------------
-#         if log and user_id and log.user_id == user.id:  # check if user is logged in and if user owns this log
-#             try:
-#                 log.date = data.get('date')
-#                 log.note = data.get('note')
+    def patch(self):
+        data = request.get_json()
+        expense = Expense.query.filter(Expense.id == data.get('id')).first()
+        #------------------------------------------------------------------
+        user_id = session.get("user_id")
+        user = User.query.filter(User.id == user_id).first()
+        #-----------------------------------------------------------------
+        if expense and user_id and expense.user_id == user.id:  # check if user is logged in and if user owns this expense
+            try:
+                expense.amount = data.get('ammount')
+                expense.date = data.get('date')
+                expense.note = data.get('note')
 
-#                 db.session.add(log)
-#                 db.session.commit()
-#                 return make_response(log.to_dict(), 202)
-#             except ValueError:
-#                 db.session.rollback()
-#                 return {'errors': ["validation errors"]}, 400
+                db.session.add(expense)
+                db.session.commit()
+                return expense_schema.dump(expense), 202
+            except ValueError:
+                db.session.rollback()
+                return {'errors': ["validation errors"]}, 400
 
-#         return {'error': 'Log not found'}, 404
+        return {'error': 'Expense not found'}, 404
     
-#     def delete(self):
-#         data = request.get_json()
-#         log = Log.query.filter(Log.id == data.get('id')).first()
-#         # check if user is logged in and if user owns this log
-#         user_id = session.get("user_id")
-#         user = User.query.filter(User.id == user_id).first()
+    def delete(self):
+        data = request.get_json()
+        expense = Expense.query.filter(Expense.id == data.get('id')).first()
+        # check if user is logged in and if user owns this expense
+        user_id = session.get("user_id")
+        user = User.query.filter(User.id == user_id).first()
 
-#         if log and user_id and log.user_id == user.id:
-#             try:
-#                 db.session.delete(log)
-#                 db.session.commit()
-#                 return {}, 204
-#             except Exception as e:
-#                 db.session.rollback()
-#                 return {'errors': [str(e)]}, 400
+        if expense and user_id and expense.user_id == user.id:
+            try:
+                db.session.delete(expense)
+                db.session.commit()
+                return {}, 204
+            except Exception as e:
+                db.session.rollback()
+                return {'errors': [str(e)]}, 400
 
-#         return {'error': 'Log not found'}, 404
+        return {'error': 'Expense not found'}, 404
     
 
        
@@ -321,7 +326,7 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(Holidays, '/holidays', endpoint='holidays')
 api.add_resource(Categories, '/categories', endpoint='categories')
-# api.add_resource(Logs, '/logs', endpoint='logs')
+api.add_resource(Expenses, '/expenses', endpoint='expenses')
 # api.add_resource(LogByID, '/logs/<int:user_id>/<int:workout_id>', endpoint='log_by_id')
 # api.add_resource(Users, '/users', endpoint='users')  # this route is only for testing !!!!!!!!!!
 

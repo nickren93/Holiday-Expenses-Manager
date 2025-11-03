@@ -167,41 +167,34 @@ class Logout(Resource):
     
 
 
-# class Signup(Resource):
-#     def post(self):
-#         user_data = request.get_json()
+class Signup(Resource):
+    def post(self):
+        user_data = request.get_json()
 
-#         username = user_data.get('username')
-#         password = user_data.get('password')
+        username = user_data.get('username')
+        password = user_data.get('password')
 
-#         errors = []
+        errors = []
 
-#         if not username or not password:
-#             errors.append('Username and password are required')
-#             return {'errors': errors}, 422
+        if not username or not password:
+            errors.append('Username and password are required')
+            return {'errors': errors}, 422
         
-#         try:
-#             user = User(username=username)
-#             user.password_hash = password
+        try:
+            user = User(username=username)
+            user.password_hash = password
 
-#             db.session.add(user)
-#             db.session.commit()
+            db.session.add(user)
+            db.session.commit()
 
-#             session['user_id'] = user.id
-#             # return user.to_dict(), 201
-#             # --------------------------------------
-#             user_data = {
-#                 "id": user.id,
-#                 "username": user.username,
-#                 "age": user.age,
-#                 "workouts": []
-#             }
-#             return user_data, 201
-#             # --------------------------------------
+            session['user_id'] = user.id
+
+            user_data = user_schema.dump(user)
+            return user_data, 201
         
-#         except IntegrityError:
-#             db.session.rollback()
-#             return {'errors': ['Username must be unique']}, 422
+        except IntegrityError:
+            db.session.rollback()
+            return {'errors': ['Username must be unique']}, 422
 
 
 

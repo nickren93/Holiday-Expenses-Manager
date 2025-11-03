@@ -65,6 +65,7 @@ user_schema = UserSchema()
 holiday_schema = HolidaySchema()
 holidays_schema = HolidaySchema(many=True)
 category_schema = CategorySchema()
+categories_schema = CategorySchema(many=True)
 expense_schema = ExpenseSchema()
 
 # ---------------------------------------------------------------
@@ -225,6 +226,31 @@ class Holidays(Resource):
             return {'errors': ["validation errors"]}, 400
 
 
+class Categories(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            return {'errors': 'please log in first'}, 422
+        
+        categories = Category.query.all()
+        categories_data = categories_schema.dump(categories)
+
+        return categories_data, 200
+
+
+    def post(self):
+        data = request.get_json() 
+        try:
+            new_category = Category(name=data.get('name'), about=data.get('about'))
+            db.session.add(new_category)
+            db.session.commit()
+
+            new_category_data = category_schema.dump(new_category)
+            return new_category_data, 201
+        except ValueError:
+            db.session.rollback()
+            return {'errors': ["validation errors"]}, 400
+
 # class Logs(Resource):
 
 #     def post(self):
@@ -290,10 +316,11 @@ class Holidays(Resource):
 
 
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
-# api.add_resource(Login, '/login', endpoint='login')
-# api.add_resource(Logout, '/logout', endpoint='logout')
-# api.add_resource(Signup, '/signup', endpoint='signup')
-# api.add_resource(Workouts, '/workouts', endpoint='workouts')
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Logout, '/logout', endpoint='logout')
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(Holidays, '/holidays', endpoint='holidays')
+api.add_resource(Categories, '/categories', endpoint='categories')
 # api.add_resource(Logs, '/logs', endpoint='logs')
 # api.add_resource(LogByID, '/logs/<int:user_id>/<int:workout_id>', endpoint='log_by_id')
 # api.add_resource(Users, '/users', endpoint='users')  # this route is only for testing !!!!!!!!!!

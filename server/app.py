@@ -63,6 +63,7 @@ class UserSchema(ma.SQLAlchemySchema):
 
 user_schema = UserSchema()
 holiday_schema = HolidaySchema()
+holidays_schema = HolidaySchema(many=True)
 category_schema = CategorySchema()
 expense_schema = ExpenseSchema()
 
@@ -198,28 +199,30 @@ class Signup(Resource):
 
 
 
-# class Workouts(Resource):
-#     def get(self):
-#         user_id = session.get("user_id")
-#         if not user_id:
-#             return {'errors': 'please log in first'}, 422
+class Holidays(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            return {'errors': 'please log in first'}, 422
         
-#         workouts = [workout.to_dict() for workout in Workout.query.all()]
+        holidays = Holiday.query.all()
+        holidays_data = holidays_schema.dump(holidays)
 
-#         return workouts, 200
+        return holidays_data, 200
 
 
-#     def post(self):
-#         data = request.get_json() 
-#         try:
-#             new_workout = Workout(name=data.get('name'), difficulty=data.get('difficulty'), \
-#                                   description=data.get("description"))
-#             db.session.add(new_workout)
-#             db.session.commit()
-#             return make_response(new_workout.to_dict(), 201)
-#         except ValueError:
-#             db.session.rollback()
-#             return {'errors': ["validation errors"]}, 400
+    def post(self):
+        data = request.get_json() 
+        try:
+            new_holiday = Holiday(name=data.get('name'), description=data.get("description"))
+            db.session.add(new_holiday)
+            db.session.commit()
+
+            new_holiday_data = holiday_schema.dump(new_holiday)
+            return new_holiday_data, 201
+        except ValueError:
+            db.session.rollback()
+            return {'errors': ["validation errors"]}, 400
 
 
 # class Logs(Resource):

@@ -55,7 +55,15 @@ if __name__ == '__main__':
 
         # Add categories:
         print("Seeding categories...")
-        c1 = Category()
+        c1 = Category(name="Transportaton", description="Expenses that user has spent on the way from \
+                      one location to another through various of ways")
+        c2 = Category(name="Dining", description="Expenses that user has spent on food")
+        c3 = Category(name="Entertainment", description="Expenses that user has spent on amusement or enjoyment.")
+        c4 = Category(name="Gift", description="Expenses that user has spent on gifts.")
+        c5 = Category(name="Medical", description="Expenses that user has spent on medical assistance.")
+        db.session.add_all([c1, c2, c3, c4, c5])
+        db.session.commit()
+
 
         # Add users:
         print("Seeding users...")
@@ -67,18 +75,23 @@ if __name__ == '__main__':
         u3.password_hash = '6666'
         db.session.add_all([u1, u2, u3])
         db.session.commit()
-
-        # # Add logs:
-        # print("Seeding logs...")
-        # l1 = Log(note=fake.sentence(), date=fake.date() , user=u1, workout=w7)
-        # l2 = Log(note=fake.sentence(), date=fake.date(), user=u1, workout=w5)
-        # l3 = Log(note=fake.sentence(), date=fake.date(), user=u1, workout=w6)
-        # l4 = Log(note=fake.sentence(), date=fake.date(), user=u1, workout=w2)
-        # l5 = Log(note=fake.sentence(), date=fake.date(), user=u2, workout=w2)
-        # l6 = Log(note=fake.sentence(), date=fake.date(), user=u2, workout=w3)
-        # l7 = Log(note=fake.sentence(), date=fake.date(), user=u2, workout=w6)
-        # l8 = Log(note=fake.sentence(), date=fake.date(), user=u3, workout=w8)
-        # db.session.add_all([l1, l2, l3, l4, l5, l6, l7, l8])
+        
+        # Add expenses:
+        print("Seeding expenses...")
+        e1 = Expense(amount=20.50, date=fake.date(), note="Cost for Uber to/from friends house", \
+                     user=u1, holiday=h6, category=c1)
+        e2 = Expense(amount=150.00, date=fake.date(), note="Cost for Dinner", user=u1, holiday=h4, category=c2)
+        e3 = Expense(amount=300.00, date=fake.date(),  note="Cost for UFC event tickets", user=u1, \
+                     holiday=h3, category=c3)
+        e4 = Expense(amount=70.00, date=fake.date(), note="Cost for Uber to/from NYC", \
+                     user=u1, holiday=h6, category=c1)
+        e5 = Expense(amount=200.00, date=fake.date(), note="Cost for Christmas gifts", user=u2, \
+                     holiday=h5, category=c4)
+        e6 = Expense(amount=60.00, date=fake.date(), note="Cost for movie tickets", user=u2, \
+                     holiday=h2, category=c3)
+        e7 = Expense(amount=20.00, date=fake.date(), note="Cost for ice-cream", user=u2, holiday=h4, category=c2)
+        e8 = Expense(amount=20.50, date=fake.date(), user=u3, holiday=h1, category=c3)
+        db.session.add_all([e1, e2, e3, e4, e5, e6, e7, e8])
         db.session.commit()
 
         print("Done seeding!")

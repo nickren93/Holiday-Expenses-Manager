@@ -159,11 +159,11 @@ class Login(Resource):
         return {'error': 'Invalid username or password'}, 401
 
 
-# class Logout(Resource):
-#     def delete(self):
+class Logout(Resource):
+    def delete(self):
 
-#         session['user_id'] = None
-#         return {}, 204
+        session['user_id'] = None
+        return {}, 204
     
 
 

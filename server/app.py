@@ -37,7 +37,6 @@ class HolidaySchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field()
     name = ma.auto_field()
-    duration = ma.auto_field()
     description = ma.auto_field()
 
 class CategorySchema(ma.SQLAlchemySchema):
@@ -47,7 +46,7 @@ class CategorySchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field()
     name = ma.auto_field()
-    description = ma.auto_field()
+    about = ma.auto_field()
 
 class UserSchema(ma.SQLAlchemySchema):
     class Meta:

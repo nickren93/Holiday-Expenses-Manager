@@ -65,8 +65,10 @@ class Holiday(db.Model):
 
     @validates("name", "description")
     def validate_all_colums_for_holidays(self, key, value):
-        if value is None or value.strip()=="":
-            raise ValueError("A holiday must have a name, a length of duration and a description.")
+        # if value is None or value.strip()=="":
+        #     raise ValueError("A holiday must have a name and a description.")
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("A holiday must have a name and description.")
         return value
 
 class Category(db.Model):
@@ -74,7 +76,7 @@ class Category(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    description = db.Column(db.String, nullable=False)
+    about = db.Column(db.String, nullable=False)
 
     expenses = db.relationship(
         'Expense', back_populates='category', cascade='all, delete-orphan')
@@ -89,10 +91,11 @@ class Category(db.Model):
 
     # serialize_rules = ('-expenses','-users', '-holidays') 
 
-    @validates("name", "description")
+    @validates("name", "about")
     def validate_name_description_for_categories(self, key, value):
-        if value is None or value.strip()=="":
-            raise ValueError("A category must have a name and a description.")
+        # if value is None or value.strip()=="":
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError("A category must have a name and a short description for what it is about.")
         return value
 
 class Expense(db.Model):
@@ -115,6 +118,16 @@ class Expense(db.Model):
 
     @validates("amount", "date", "user_id", "holiday_id", 'category_id')
     def validate_all_columns(self, key, value):
-        if value is None or value == 0.0 or value.strip()=="":
-            raise ValueError("An expense must have a corresponding amount, date, user id,  holiday id and category id.")
+        # if value is None or value == 0.0 or value.strip()=="":
+        #     raise ValueError("An expense must have a corresponding amount, date, user id,  holiday id and category id.")
+        # return value
+        if value is None:
+            raise ValueError(f"{key} cannot be empty.")
+
+        if key == "amount" and value <= 0:
+            raise ValueError("Amount must be greater than $0.00.")
+
+        if key == "date" and (not isinstance(value, str) or not value.strip()):
+            raise ValueError("Date must be a non-empty string.")
+
         return value

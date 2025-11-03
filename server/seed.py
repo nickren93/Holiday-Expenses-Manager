@@ -55,12 +55,12 @@ if __name__ == '__main__':
 
         # Add categories:
         print("Seeding categories...")
-        c1 = Category(name="Transportaton", description="Expenses that user has spent on the way from \
+        c1 = Category(name="Transportation", about="Expenses that user has spent on the way from \
                       one location to another through various of ways")
-        c2 = Category(name="Dining", description="Expenses that user has spent on food")
-        c3 = Category(name="Entertainment", description="Expenses that user has spent on amusement or enjoyment.")
-        c4 = Category(name="Gift", description="Expenses that user has spent on gifts.")
-        c5 = Category(name="Medical", description="Expenses that user has spent on medical assistance.")
+        c2 = Category(name="Dining", about="Expenses that user has spent on food")
+        c3 = Category(name="Entertainment", about="Expenses that user has spent on amusement or enjoyment.")
+        c4 = Category(name="Gift", about="Expenses that user has spent on gifts.")
+        c5 = Category(name="Medical", about="Expenses that user has spent on medical assistance.")
         db.session.add_all([c1, c2, c3, c4, c5])
         db.session.commit()
 

@@ -52,7 +52,7 @@ class UserSchema(ma.SQLAlchemySchema):
     class Meta:
         model = User
         load_instance = True
-        exclude = ("_password_hash",)
+        # exclude = ("_password_hash",)
 
     id = ma.auto_field()
     username = ma.auto_field()
@@ -118,45 +118,45 @@ class CheckSession(Resource):
         return {'error': 'Please Log in first!'}, 401
 
 
-# class Login(Resource):
-#     def post(self):
-#         user_data = request.get_json()
+class Login(Resource):
+    def post(self):
+        user_data = request.get_json()
 
-#         username = user_data.get('username')
-#         password = user_data.get('password')
+        username = user_data.get('username')
+        password = user_data.get('password')
 
-#         user = User.query.filter(User.username == username).first()
+        user = User.query.filter(User.username == username).first()
 
-#         if user and user.authenticate(password):
-#             session['user_id'] = user.id
+        if user and user.authenticate(password):
+            session['user_id'] = user.id
 
-#             user_data = user_schema.dump(user)
-#             user_data["holidays"] = []
-#             user_data["categories"] = []
+            user_data = user_schema.dump(user)
+            user_data["holidays"] = []
+            user_data["categories"] = []
 
-#             for holiday in user.holidays:
-#                 holiday_dict = holiday_schema.dump(holiday)
-#                 user_expenses = [
-#                     expense_schema.dump(expense)
-#                     for expense in holiday.expenses
-#                     if expense.user_id == user.id
-#                 ]
-#                 holiday_dict["expenses"] = user_expenses
-#                 user_data["holidays"].append(holiday_dict)
+            for holiday in user.holidays:
+                holiday_dict = holiday_schema.dump(holiday)
+                user_expenses = [
+                    expense_schema.dump(expense)
+                    for expense in holiday.expenses
+                    if expense.user_id == user.id
+                ]
+                holiday_dict["expenses"] = user_expenses
+                user_data["holidays"].append(holiday_dict)
 
-#             for category in user.categories:
-#                 category_dict = category_schema.dump(category)
-#                 user_expenses = [
-#                     expense_schema.dump(expense)
-#                     for expense in category.expenses
-#                     if expense.user_id == user.id
-#                 ]
-#                 category_dict["expenses"] = user_expenses
-#                 user_data["categories"].append(category_dict)
+            for category in user.categories:
+                category_dict = category_schema.dump(category)
+                user_expenses = [
+                    expense_schema.dump(expense)
+                    for expense in category.expenses
+                    if expense.user_id == user.id
+                ]
+                category_dict["expenses"] = user_expenses
+                user_data["categories"].append(category_dict)
 
-#             return user_data, 200
+            return user_data, 200
 
-#         return {'error': 'Invalid username or password'}, 401
+        return {'error': 'Invalid username or password'}, 401
 
 
 # class Logout(Resource):

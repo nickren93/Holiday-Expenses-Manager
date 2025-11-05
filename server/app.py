@@ -26,6 +26,7 @@ class ExpenseSchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     amount = ma.auto_field()
     date = ma.auto_field()
+    note = ma.auto_field()
     user_id = ma.auto_field()
     holiday_id = ma.auto_field()
     category_id = ma.auto_field()
@@ -175,8 +176,13 @@ class Signup(Resource):
 
         username = user_data.get('username')
         password = user_data.get('password')
+        name = user_data.get('name')
 
         errors = []
+
+        if not name:
+            errors.append('Name is required')
+            return {'errors': errors}, 422
 
         if not username or not password:
             errors.append('Username and password are required')
@@ -285,7 +291,7 @@ class Expenses(Resource):
         #-----------------------------------------------------------------
         if expense and user_id and expense.user_id == user.id:  # check if user is logged in and if user owns this expense
             try:
-                expense.amount = data.get('ammount')
+                expense.amount = data.get('amount')
                 expense.date = data.get('date')
                 expense.note = data.get('note')
 

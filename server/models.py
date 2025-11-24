@@ -124,8 +124,15 @@ class Expense(db.Model):
         if value is None:
             raise ValueError(f"{key} cannot be empty.")
 
-        if key == "amount" and value <= 0:
-            raise ValueError("Amount must be greater than $0.00.")
+        # if key == "amount" and value <= 0:
+        #     raise ValueError("Amount must be greater than $0.00.")
+        if key == "amount":
+            try:
+                value = float(value)
+            except (TypeError, ValueError):
+                raise ValueError("Amount must be a number.")
+            if value <= 0:
+                raise ValueError("Amount must be greater than $0.00.")
 
         if key == "date" and (not isinstance(value, str) or not value.strip()):
             raise ValueError("Date must be a non-empty string.")

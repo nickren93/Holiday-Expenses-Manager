@@ -18,19 +18,6 @@ app.secret_key = b'?w\x85Z\x08Q\xbdO\xb8\xa9\xb65Kj\xa9_'
 ma = Marshmallow(app)
 
 # Schemas:
-class ExpenseSchema(ma.SQLAlchemySchema):
-    class Meta:
-        model = Expense
-        load_instance = True
-    
-    id = ma.auto_field()
-    amount = ma.auto_field()
-    date = ma.auto_field()
-    note = ma.auto_field()
-    user_id = ma.auto_field()
-    holiday_id = ma.auto_field()
-    category_id = ma.auto_field()
-
 class HolidaySchema(ma.SQLAlchemySchema):
     class Meta:
         model = Holiday
@@ -61,6 +48,21 @@ class UserSchema(ma.SQLAlchemySchema):
     age = ma.auto_field()
     holidays = ma.Nested(HolidaySchema, many=True)
     categories = ma.Nested(CategorySchema, many=True)
+
+class ExpenseSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Expense
+        load_instance = True
+    
+    id = ma.auto_field()
+    amount = ma.auto_field()
+    date = ma.auto_field()
+    note = ma.auto_field()
+    user_id = ma.auto_field()
+    holiday_id = ma.auto_field()
+    category_id = ma.auto_field()
+    holiday = ma.Nested(HolidaySchema)
+    category = ma.Nested(CategorySchema)
 
 user_schema = UserSchema()
 holiday_schema = HolidaySchema()

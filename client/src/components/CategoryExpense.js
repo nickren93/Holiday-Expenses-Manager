@@ -2,27 +2,64 @@ import { useState, useContext } from 'react';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 // import '../styles/Workout.css';
 
-function CategoryExpense({ expense, category_id }) {
+function CategoryExpense({ expense, category_id, holiday_id }) {
 
     const [edit, setEdit] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(expense)
-    const { deleteCategoryExpense } = useContext(StateAndHandlerContext)
+    const { setMyCategories, setMyHolidays, deleteCategoryExpense } = useContext(StateAndHandlerContext)
 
     function handleSubmit(e){
         e.preventDefault();
+
+        const updatedExpense = {
+            id: currentExpense.id,
+            amount: parseFloat(currentExpense.amount), // convert to float
+            date: currentExpense.date,
+            note: currentExpense.note,
+            holiday: currentExpense.holiday
+        };
+        
         fetch(`/expenses`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(currentExpense)
+            body: JSON.stringify(updatedExpense)
         })
         .then(resp => resp.json())
         .then(newExpense =>{
             setCurrentExpense(newExpense)
-            setEdit(false)
+            // setHolidayExpenses(updatedHolidayExpenses) //
+            setMyCategories((prev) => 
+                prev.map((c) =>
+                    c.id === parseInt(category_id)
+                    ? {
+                        ...c,
+                        expenses: c.expenses.map((e) =>
+                            e.id === newExpense.id ? newExpense : e
+                        ),
+                    }
+                    : c
+                )
+            );
+            setMyHolidays((prev) => 
+                prev.map((h) =>
+                    h.id === parseInt(holiday_id)
+                    ? {
+                        ...h,
+                        expenses: h.expenses.map((e) =>
+                            e.id === newExpense.id ? newExpense : e
+                        ),
+                    }
+                    : h
+                )
+            );
             console.log(newExpense.user)
+            setEdit(false) 
         })
+        .catch((err) => {
+            console.error("Error:", err);
+        });
     }
 
     function handleDelete() {
@@ -95,3 +132,20 @@ function CategoryExpense({ expense, category_id }) {
 }
 
 export default CategoryExpense;
+
+
+
+
+        // fetch(`/expenses`, {
+        //     method: "PATCH",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(currentExpense)
+        // })
+        // .then(resp => resp.json())
+        // .then(newExpense =>{
+        //     setCurrentExpense(newExpense)
+        //     setEdit(false)
+        //     console.log(newExpense.user)
+        // })

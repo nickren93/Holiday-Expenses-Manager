@@ -21,7 +21,7 @@ function MyHolidays(){
         )
     }
     
-// ✅ Step 1: create an empty object to store holidays by year
+    // ✅ Step 1: create an empty object to store holidays by year
     const holidaysByYear = {};
 
     // ✅ Step 2: go through each holiday

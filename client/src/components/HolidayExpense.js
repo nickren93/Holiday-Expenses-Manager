@@ -2,12 +2,11 @@ import { useState, useContext } from 'react';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 // import '../styles/Workout.css';
 
-
-function HolidayExpense({ expense, holiday_id }) {
+function HolidayExpense({ expense, holiday_id, category_id }) {
 
     const [edit, setEdit] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(expense)
-    const { setMyHolidays, deleteHolidayExpense } = useContext(StateAndHandlerContext)
+    const { setMyHolidays, setMyCategories, deleteHolidayExpense } = useContext(StateAndHandlerContext)
 
     function handleSubmit(e){
         e.preventDefault();
@@ -20,7 +19,6 @@ function HolidayExpense({ expense, holiday_id }) {
             category: currentExpense.category
         };
         
-      
         fetch(`/expenses`, {
             method: "PATCH",
             headers: {
@@ -42,6 +40,18 @@ function HolidayExpense({ expense, holiday_id }) {
                         ),
                     }
                     : h
+                )
+            );
+            setMyCategories((prev) => 
+                prev.map((c) =>
+                    c.id === parseInt(category_id)
+                    ? {
+                        ...c,
+                        expenses: c.expenses.map((e) =>
+                            e.id === newExpense.id ? newExpense : e
+                        ),
+                    }
+                    : c
                 )
             );
             console.log(newExpense.user)

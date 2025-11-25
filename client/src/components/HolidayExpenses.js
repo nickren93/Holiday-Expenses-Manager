@@ -7,13 +7,11 @@ import { StateAndHandlerContext } from '../context/stateAndHandler';
 function HolidayExpenses() {
 
     const { holiday_id, year } = useParams(); 
-
     const { myHolidays, holidayExpenses, setHolidayExpenses } = useContext(StateAndHandlerContext)
 
     // find current holiday
     // const currentHoliday = myHolidays.find(holiday => holiday.id == parseInt(holiday_id))
     const currentHoliday = myHolidays ? myHolidays.find((holiday) => holiday.id == parseInt(holiday_id)) : null;
-
 
     useEffect(() => {
         if (currentHoliday) {
@@ -31,10 +29,6 @@ function HolidayExpenses() {
     }, [currentHoliday, year]);
 
 
-    // if (!currentHoliday) {
-    //     return <h3>Loading expenses for current holiday...</h3>;
-    // }
-
     if (!myHolidays || !currentHoliday) {
         return <h3>Loading expenses for current holiday...</h3>;
     }
@@ -49,6 +43,7 @@ function HolidayExpenses() {
                         key={expense.id}
                         expense={expense}
                         holiday_id={holiday_id}
+                        category_id={expense.category.id}
                     />
                 ))
             ) : (

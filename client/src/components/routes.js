@@ -31,7 +31,7 @@ const routes = [
                         element: <HolidayExpenses />
                     },
                     {
-                        path:  '/categories/:category_id/expenses',
+                        path:  '/categories/:category_id/expenses/:year',
                         element: <CategoryExpenses />
                     },
                     {

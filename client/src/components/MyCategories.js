@@ -21,14 +21,14 @@ function MyCategories(){
         )
     }
     //---------------------------------------------------------------------------------------
-    // ✅ Step 1: create an empty object to store holidays by year
+    // Step 1: create an empty object to store categories by year
     const categoriesByYear = {};
 
-    // ✅ Step 2: go through each category
+    // Step 2: go through each category
     for (let i = 0; i < myCategories.length; i++) {
         const category = myCategories[i];
 
-        // if the holiday has expenses
+        // if the category has expenses
         if (category.expenses && category.expenses.length > 0) {
 
             // loop through all expenses to collect all years
@@ -47,7 +47,7 @@ function MyCategories(){
                     categoriesByYear[year] = [];
                 }
 
-                // check if this holiday is already added to that year
+                // check if this category is already added to that year
                 let alreadyAdded = false;
                 for (let k = 0; k < categoriesByYear[year].length; k++) {
                     if (categoriesByYear[year][k].id === category.id) {
@@ -56,7 +56,7 @@ function MyCategories(){
                     }
                 }
 
-                // only add the holiday once per year
+                // only add the category once per year
                 if (!alreadyAdded) {
                     categoriesByYear[year].push(category);
                 }
@@ -71,7 +71,7 @@ function MyCategories(){
         }
     }
 
-    // ✅ Step 3: make a list of all years and sort them newest first
+    // Step 3: make a list of all years and sort them newest first
     const sortedYears = Object.keys(categoriesByYear).sort((a, b) => b.localeCompare(a));
     //----------------------------------------------------------------------------------------
 

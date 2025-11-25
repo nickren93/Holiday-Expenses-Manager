@@ -6,7 +6,8 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
 
     const [edit, setEdit] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(expense)
-    const { setMyCategories, setMyHolidays, deleteCategoryExpense } = useContext(StateAndHandlerContext)
+    const { setMyCategories, setMyHolidays, setHolidayExpenses, deleteCategoryExpense } 
+    = useContext(StateAndHandlerContext)
 
     function handleSubmit(e){
         e.preventDefault();
@@ -41,6 +42,9 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
                     }
                     : c
                 )
+            );
+            setHolidayExpenses((prev) =>
+                prev.map((e) => (e.id === newExpense.id ? newExpense : e))
             );
             setMyHolidays((prev) => 
                 prev.map((h) =>

@@ -5,7 +5,6 @@ import Login from './Login';
 import NavBar from './NavBar';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import '../styles/Home.css';
-// import MyWorkout from "./MyWorkout";
 
 function Home(){
 

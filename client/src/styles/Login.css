@@ -1,13 +1,62 @@
-.login-container {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 24px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+  min-height: 70vh;
 }
 
-.login-container h2 {
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 2rem 2.2rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   text-align: center;
-  margin-bottom: 20px;
+}
+
+/* ----------- TITLES ----------- */
+
+.auth-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+/* ----------- FORM WRAPPER ----------- */
+
+.auth-form-wrapper {
+  margin-top: 1rem;
+}
+
+/* ----------- SWITCH TEXT ----------- */
+
+.auth-switch {
+  margin-top: 1.8rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+/* ----------- TEXT BUTTON ----------- */
+
+.btn-text {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #4F46E5;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.btn-text:hover {
+  color: #3730A3;
 }

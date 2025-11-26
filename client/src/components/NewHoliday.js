@@ -46,33 +46,59 @@ function NewHoliday() {
 
   return (
 
-    <div className="Workouts Page">
-      <p>Create a new holiday: </p>
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <br />
-        <input
-          id="name"
-          name="name"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-        />
-        <p style={{ color: "red" }}> {formik.errors.name}</p>
+    <div className="form-page">
 
-        <label htmlFor="description">Description</label>
-        <br />
-        <input
-          id="description"
-          name="description"
-          type="description"
-          onChange={formik.handleChange}
-          value={formik.values.description}
-        />
-        <p style={{ color: "red" }}> {formik.errors.description}</p>
+      {/* HEADER */}
+      <h2 className="section-title">
+          <span className="section-title-emoji">🏖️</span>
+          Create a New Holiday
+      </h2>
+      <p className="section-subtitle">
+          Add a new holiday to organize your expenses.
+      </p>
 
-        <button type="submit">Create Holiday</button>
-      </form>
-      <Link to={`/newexpense`} className="view-profile">Back</Link>      
+      {/* FORM CARD */}
+      <div className="form-card">
+        <form onSubmit={formik.handleSubmit}>
+
+          {/* NAME */}
+          <div className="form-group">
+              <label htmlFor="name" className="form-label">Holiday Name</label>
+              <input
+                  id="name"
+                  name="name"
+                  className="form-input"
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+              />
+              <p className="form-error"> {formik.errors.name}</p>
+          </div>
+
+          {/* DESCRIPTION */}
+          <div className="form-group">
+              <label htmlFor="description" className="form-label">Description</label>
+              <input
+                  id="description"
+                  name="description"
+                  type="text"
+                  className="form-input"
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
+              />
+              <p className="form-error"> {formik.errors.description}</p>
+          </div>
+
+          <button type="submit" className="btn-primary" style={{ width: "100%", marginTop: "12px" }}>
+              Create Holiday
+          </button>
+        </form>
+      </div>
+
+      {/* BACK LINK */}
+      <Link to={`/newexpense`} className="btn-secondary" style={{ marginTop: "1.5rem" }}>
+          ← Back
+      </Link>
+           
     </div>
   );
 }

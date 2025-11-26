@@ -8,26 +8,74 @@ function NavBar() {
     const { logout } = useContext(StateAndHandlerContext)
 
     return(
-        <nav>
-            <NavLink to="/" className="nav-link">
-                Home
-            </NavLink>
+        <header className="navbar-container">
+            <div className="navbar-inner">
 
-            <NavLink to="/myholidays" className="nav-link">
-                My Holidays
-            </NavLink>
+                {/* BRAND / LOGO */}
+                <div className="navbar-brand">
+                    🌴 Holiday Expenses
+                </div>
 
-            <NavLink to="/mycategories" className="nav-link">
-                My Expense Categories
-            </NavLink>
+                {/* NAVIGATION LINKS */}
+                <nav className="navbar-links">
+                    <NavLink to="/" className="nav-link">
+                        Home
+                    </NavLink>
 
-            <NavLink to="/newexpense" className="nav-link">
-                New Expense
-            </NavLink>
+                    <NavLink to="/myholidays" className="nav-link">
+                        My Holidays
+                    </NavLink>
 
-            <button onClick={logout}>Logout</button>
-        </nav> 
+                    <NavLink to="/mycategories" className="nav-link">
+                        My Categories
+                    </NavLink>
+
+                    <NavLink to="/newexpense" className="nav-link">
+                        New Expense
+                    </NavLink>
+                </nav>
+
+                {/* LOGOUT BUTTON */}
+                <button 
+                    className="btn-logout"
+                    onClick={logout}
+                >
+                    Logout
+                </button>
+
+            </div>
+        </header>
     )
 }
 
 export default NavBar;
+
+
+// function NavBar() {
+
+//     const { logout } = useContext(StateAndHandlerContext)
+
+//     return(
+//         <nav>
+//             <NavLink to="/" className="nav-link">
+//                 Home
+//             </NavLink>
+
+//             <NavLink to="/myholidays" className="nav-link">
+//                 My Holidays
+//             </NavLink>
+
+//             <NavLink to="/mycategories" className="nav-link">
+//                 My Expense Categories
+//             </NavLink>
+
+//             <NavLink to="/newexpense" className="nav-link">
+//                 New Expense
+//             </NavLink>
+
+//             <button onClick={logout}>Logout</button>
+//         </nav> 
+//     )
+// }
+
+// export default NavBar;

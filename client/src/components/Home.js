@@ -8,8 +8,8 @@ import '../styles/Home.css';
 
 function Home(){
 
-    const { user, setUser, setMyHolidays, setMyCategories, myHolidays, myCategories, myExpenses } 
-        = useContext(StateAndHandlerContext);
+    const { user, setUser, setMyHolidays, setMyCategories, myHolidays, myCategories } 
+    = useContext(StateAndHandlerContext);
 
     useEffect(() => {
         // auto-login
@@ -32,7 +32,14 @@ function Home(){
     ) 
 
     // Stats
-    const totalExpenses = myExpenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
+    // const totalExpenses = myExpenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
+
+    let totalExpenses = 0;
+    for(let i=0; i < myHolidays.length; i++){
+        for(let j=0; j < myHolidays[i].expenses.length; j++){
+            totalExpenses += myHolidays[i].expenses[j].amount;
+        }
+    }
 
     return(
         <main className="App">
@@ -96,7 +103,6 @@ function Home(){
                 </div>
             </section>
 
-            {/* --- Footer stays the same --- */}
             <Footer />
         </main>
     )         

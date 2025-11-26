@@ -21,10 +21,10 @@ function MyCategories(){
         )
     }
     //---------------------------------------------------------------------------------------
-    // Step 1: create an empty object to store categories by year
+    // create an empty object to store categories by year
     const categoriesByYear = {};
 
-    // Step 2: go through each category
+    // go through each category
     for (let i = 0; i < myCategories.length; i++) {
         const category = myCategories[i];
 
@@ -71,7 +71,7 @@ function MyCategories(){
         }
     }
 
-    // Step 3: make a list of all years and sort them newest first
+    // make a list of all years and sort them newest first
     const sortedYears = Object.keys(categoriesByYear).sort((a, b) => b.localeCompare(a));
     //----------------------------------------------------------------------------------------
 

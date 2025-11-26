@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
+import "../styles/PageLayout.css";
 
 function NewCategory() {
 

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import { useFormik } from "formik";
 import * as yup from "yup";
+import "../styles/PageLayout.css";
 
 function NewExpense() {
 

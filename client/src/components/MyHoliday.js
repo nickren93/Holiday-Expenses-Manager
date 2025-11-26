@@ -23,10 +23,7 @@ function MyHoliday({ holiday_id, name, description, year }) {
                 <span className="item-card-meta">
                     View all expenses
                 </span>
-                <Link
-                    to={`/holidays/${holiday_id}/expenses/${year}`}
-                    className="btn-secondary"
-                >
+                <Link to={`/holidays/${holiday_id}/expenses/${year}`} className="btn-secondary">
                     Open →
                 </Link>
             </div>

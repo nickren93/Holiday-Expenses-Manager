@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import CategoryExpense from "./CategoryExpense";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
+import '../styles/PageLayout.css';
 
 function CategoryExpenses() {
 
@@ -27,25 +28,50 @@ function CategoryExpenses() {
 
 
     if (!myCategories || !currentCategory) {
-        return <h3>Loading expenses for current categroy....</h3>;
+        return (
+            <div className="section-container">
+                <h3>Loading expenses for current category...</h3>
+            </div>
+        );
     }
 
     return (
-        <div className="logs">
-            <h2>Expenses for {currentCategory.name} - {year}</h2>
-            <br />
+        <div className="section-container">
+
+            <div className="section-header">
+                <div>
+                    <h2 className="section-title">
+                        <span className="section-title-emoji">🧾</span>
+                        {currentCategory.name} — {year}
+                    </h2>
+                    <p className="section-subtitle">Expenses in this category</p>
+                </div>
+            </div>
 
             {categoryExpenses.length > 0 ? (
-                categoryExpenses.map((expense) => (
-                    <CategoryExpense 
-                        key={expense.id}
-                        expense={expense}
-                        category_id={category_id}
-                        holiday_id={expense.holiday.id}
-                    />
-                ))
+                <div className="expense-list">
+                    <div className="expense-row expense-row-header">
+                        <span>Description</span>
+                        <span>Date</span>
+                        <span className="expense-amount">Amount</span>
+                    </div>
+
+                    {categoryExpenses.map((expense) => (
+                        <div key={expense.id} className="expense-row">
+                            <CategoryExpense 
+                                expense={expense}
+                                category_id={category_id}
+                                holiday_id={expense.holiday.id}
+                            />
+                        </div>
+                    ))}
+                </div>
             ) : (
-                <h4>No expenses found for this year.</h4>
+                <div className="empty-state">
+                    <div className="empty-icon">📂</div>
+                    <div className="empty-title">No expenses found</div>
+                    <div className="empty-text">Try selecting another year.</div>
+                </div>
             )}
         </div>
     );

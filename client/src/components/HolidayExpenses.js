@@ -15,7 +15,7 @@ function HolidayExpenses() {
 
     useEffect(() => {
         if (currentHoliday) {
-            // ✅ filter the expenses to match the year
+            // filter the expenses to match the year
             const filteredExpenses = currentHoliday.expenses.filter((exp) => {
                 // make sure exp.date exists and check its first 4 chars
                 if (exp.date && exp.date.slice(0, 4) === year) {

@@ -70,6 +70,7 @@ holidays_schema = HolidaySchema(many=True)
 category_schema = CategorySchema()
 categories_schema = CategorySchema(many=True)
 expense_schema = ExpenseSchema()
+expenses_schema = ExpenseSchema(many=True)
 
 # ---------------------------------------------------------------
 # Views:
@@ -260,6 +261,15 @@ class Categories(Resource):
             return {'errors': ["validation errors"]}, 400
 
 class Expenses(Resource):
+    def get(self):
+        user_id = session.get("user_id")
+        if not user_id:
+            return {'errors': 'please log in first'}, 422
+        
+        expenses = Expense.query.filter(Expense.id == user_id).all()
+        expenses_data = expenses_schema.dump(expenses)
+
+        return expenses_data, 200
 
     def post(self):
         data = request.get_json()

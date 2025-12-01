@@ -101,59 +101,71 @@ function StateAndHandlerProvider({ children }) {
         })
     }
 
-    function deleteHolidayExpense(id, holiday_id) {
-        const updatedHolidayExpenses = holidayExpenses.filter((expense) => expense.id !== id);
+    function deleteHolidayExpense(expenseId, holiday_id) {
+        const updatedHolidayExpenses = holidayExpenses.filter((expense) => expense.id !== expenseId);
         setHolidayExpenses(updatedHolidayExpenses);
 
-        const updatedCategoryExpenses = categoryExpenses.filter((expense) => expense.id !== id);
+        const updatedCategoryExpenses = categoryExpenses.filter((expense) => expense.id !== expenseId);
         setCategoryExpenses(updatedCategoryExpenses);
 
         // Update holiday’s expenses list in myHolidays
-        setMyHolidays(prevHolidays =>
-            prevHolidays.map(h => h.id === parseInt(holiday_id)
-                    ? { ...h, expenses: h.expenses.filter(e => e.id !== id) }
-                    : h
-            )
+        setMyHolidays(prev =>
+            prev.map(h => ({
+                    ...h,
+                    expenses: h.expenses.filter(e => e.id !== expenseId)
+                })).filter(h => h.expenses.length > 0) // <-- remove empty holidays
         );
+        // setMyHolidays(prevHolidays =>
+        //     prevHolidays.map(h => h.id === parseInt(holiday_id)
+        //             ? { ...h, expenses: h.expenses.filter(e => e.id !== id) }
+        //             : h
+        //     )
+        // );
 
         // Update category’s expenses list in myCategories
-        setMyCategories(prevCategories =>
-            prevCategories.map(c => ({
-                ...c, expenses: c.expenses ? c.expenses.filter(e => e.id !== id) : []
-            }))
+        setMyCategories(prev =>
+            prev.map(c => ({
+                    ...c,
+                    expenses: c.expenses.filter(e => e.id !== expenseId)
+                })).filter(c => c.expenses.length > 0) // <-- remove empty categories
         );
+        // setMyCategories(prevCategories =>
+        //     prevCategories.map(c => ({
+        //         ...c, expenses: c.expenses ? c.expenses.filter(e => e.id !== expenseId) : []
+        //     }))
+        // );
 
         if (updatedHolidayExpenses.length === 0) {
-            setMyHolidays(prev => prev.filter(h => h.id !== parseInt(holiday_id)));
+            // setMyHolidays(prev => prev.filter(h => h.expenseId !== parseInt(holiday_id)));
             navigate("/myholidays");
         }
     }
 
-    function deleteCategoryExpense(id, category_id) {
-        const updatedCategoryExpenses = categoryExpenses.filter((expense) => expense.id !== id);
+    function deleteCategoryExpense(expenseId, category_id) {
+        const updatedCategoryExpenses = categoryExpenses.filter((expense) => expense.id !== expenseId);
         setCategoryExpenses(updatedCategoryExpenses);
 
-        const updatedHolidayExpenses = holidayExpenses.filter((expense) => expense.id !== id);
+        const updatedHolidayExpenses = holidayExpenses.filter((expense) => expense.id !== expenseId);
         setHolidayExpenses(updatedHolidayExpenses);
 
-        // Update category’s expenses list in myCategories
-        setMyCategories(prevCategories =>
-            prevCategories.map(c => c.id === parseInt(category_id)
-                    ? { ...c, expenses: c.expenses.filter(e => e.id !== id) }
-                    : c
-            )
+        // Update myCategories (remove expense + delete empty categories)
+        setMyCategories(prev =>
+            prev.map(c => ({
+                    ...c,
+                    expenses: c.expenses.filter(e => e.id !== expenseId)
+                })).filter(c => c.expenses.length > 0) // <-- remove empty categories
         );
 
-        // Update holiday’s expenses list in myHolidays
-        setMyHolidays(prevHolidays =>
-            prevHolidays.map(h => ({
-                ...h,
-                expenses: h.expenses ? h.expenses.filter(e => e.id !== id) : []
-            }))
+        // Update myHolidays (remove expense + delete empty holidays)
+        setMyHolidays(prev =>
+            prev.map(h => ({
+                    ...h,
+                    expenses: h.expenses.filter(e => e.id !== expenseId)
+                })).filter(h => h.expenses.length > 0) // <-- remove empty holidays
         );
 
         if (updatedCategoryExpenses.length === 0) {
-            setMyCategories(prev => prev.filter(c => c.id !== parseInt(category_id)));
+            // setMyCategories(prev => prev.filter(c => c.id !== parseInt(category_id)));
             navigate("/mycategories");
         }
     }

@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link  } from "react-router-dom";
 import CategoryExpense from "./CategoryExpense";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import "../styles/ExpensePages.css";
@@ -54,6 +54,10 @@ function CategoryExpenses() {
             ) : (
                 <h4 className="expense-empty">No expenses found for this category.</h4>
             )}
+
+            <Link to={"/mycategories"} className="btn-secondary">
+                Back
+            </Link>
         </div>
     );
  

@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import HolidayExpense from "./HolidayExpense";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import "../styles/ExpensePages.css";
@@ -66,6 +66,17 @@ function HolidayExpenses() {
             ) : (
                 <h4 className="expense-empty">No expenses found for this year.</h4>
             )}
+
+            {/* <button 
+                className="btn-secondary-outline" 
+                onClick={() => setEdit(true)}
+            >
+                Back
+            </button> */}
+            <Link to={"/myholidays"} className="btn-secondary">
+                Back
+            </Link>
+            
         </div>
     );
 }

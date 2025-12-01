@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
-// import '../styles/Workout.css';
 import '../styles/PageLayout.css';
 
 function CategoryExpense({ expense, category_id, holiday_id }) {

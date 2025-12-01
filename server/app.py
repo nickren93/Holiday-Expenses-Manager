@@ -26,6 +26,7 @@ class HolidaySchema(ma.SQLAlchemySchema):
     id = ma.auto_field()
     name = ma.auto_field()
     description = ma.auto_field()
+    year = ma.auto_field()
 
 class CategorySchema(ma.SQLAlchemySchema):
     class Meta:
@@ -224,7 +225,9 @@ class Holidays(Resource):
     def post(self):
         data = request.get_json() 
         try:
-            new_holiday = Holiday(name=data.get('name'), description=data.get("description"))
+            new_holiday = Holiday(name=data.get('name'), 
+                                  description=data.get("description"),
+                                  year=int(data.get("year")))
             db.session.add(new_holiday)
             db.session.commit()
 

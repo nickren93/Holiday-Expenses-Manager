@@ -1,54 +1,40 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
-import '../styles/NavBar.css';
 
 function NavBar() {
 
     const { logout } = useContext(StateAndHandlerContext)
 
-    return(
-        <header className="navbar-container">
-            <div className="navbar-inner">
+    return (
+        <nav className="sidebar-nav">
 
-                {/* BRAND / LOGO */}
-                <div className="navbar-brand">
-                    🌴 Holiday Expenses
-                </div>
+            <NavLink to="/" className="sidebar-link">
+                🏠 Dashboard
+            </NavLink>
 
-                {/* NAVIGATION LINKS */}
-                <nav className="navbar-links">
-                    <NavLink to="/" className="nav-link">
-                        Home
-                    </NavLink>
+            <NavLink to="/myholidays" className="sidebar-link">
+                🎉 My Holidays
+            </NavLink>
 
-                    <NavLink to="/myholidays" className="nav-link">
-                        My Holidays
-                    </NavLink>
+            <NavLink to="/mycategories" className="sidebar-link">
+                🗂 My Categories
+            </NavLink>
 
-                    <NavLink to="/mycategories" className="nav-link">
-                        My Categories
-                    </NavLink>
+            <NavLink to="/expense/new" className="sidebar-link">
+                ➕ Add Expense
+            </NavLink>
 
-                    <NavLink to="/newexpense" className="nav-link">
-                        New Expense
-                    </NavLink>
-                </nav>
+            <button className="sidebar-logout" onClick={logout}>
+                Logout
+            </button>
 
-                {/* LOGOUT BUTTON */}
-                <button 
-                    className="btn-logout"
-                    onClick={logout}
-                >
-                    Logout
-                </button>
-
-            </div>
-        </header>
+        </nav>
     )
 }
 
 export default NavBar;
+
 
 
 // function NavBar() {

@@ -1,89 +1,174 @@
-/* HERO SECTION */
+/* ===============================
+   HOME HERO
+   =============================== */
+
 .home-hero {
   margin-top: 1.5rem;
   text-align: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
+  animation: fadeInDown 0.5s ease-out;
 }
 
 .subtitle {
-  color: #666;
+  color: #6b7280;
   margin-top: 0.2rem;
+  font-size: 0.98rem;
 }
 
 .hero-buttons {
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
-.btn-primary {
-  background: #4F46E5;
-  color: white;
-  padding: 0.7rem 1.2rem;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 500;
-}
-
+/* reuse global .btn-primary / .btn-secondary styles, but add subtle animation */
+.btn-primary,
 .btn-secondary {
-  background: #E5E7EB;
-  color: #333;
-  padding: 0.7rem 1.2rem;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 500;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
 }
 
-/* STATS */
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* ===============================
+   STATS SECTION
+   =============================== */
+
 .stats-section {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin: 2rem auto;
   max-width: 900px;
+  gap: 1rem;
+  animation: fadeInUp 0.5s ease-out;
 }
 
 .stat-card {
   background: #F9FAFB;
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   border-radius: 12px;
-  width: 30%;
-  text-align: center;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 260px;
+  text-align: left;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.06);
+  flex: 1 1 0;
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out;
+}
+
+.stat-card h3 {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  color: #6b7280;
 }
 
 .stat-number {
   font-size: 1.8rem;
-  font-weight: bold;
-  margin-top: 0.5rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  color: #111827;
 }
 
-/* QUICK ACTIONS */
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.12);
+}
+
+/* ===============================
+   QUICK ACTIONS
+   =============================== */
+
 .quick-actions {
   max-width: 900px;
-  margin: 3rem auto;
+  margin: 2.5rem auto 3rem auto;
+  animation: fadeInUp 0.6s ease-out;
 }
 
 .quick-actions h2 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  color: #111827;
 }
 
 .actions-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
 .action-card {
-  padding: 1rem;
+  padding: 1rem 1.1rem;
   background: #F3F4F6;
   border-radius: 12px;
-  color: #111;
+  color: #111827;
   text-decoration: none;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.08);
+  font-size: 0.95rem;
+  transition: background 0.16s ease-out, transform 0.16s ease-out, box-shadow 0.16s ease-out;
+}
+
+.action-card h4 {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.action-card p {
+  margin: 0;
+  color: #4b5563;
 }
 
 .action-card:hover {
-  background: #e8e9eb;
-  transition: 0.2s ease-in-out;
+  background: #E5E7EB;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.15);
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 768px) {
+  .stats-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stat-card {
+    max-width: 100%;
+  }
+
+  .actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===============================
+   ANIMATIONS
+   =============================== */
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

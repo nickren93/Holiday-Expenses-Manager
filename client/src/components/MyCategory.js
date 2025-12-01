@@ -1,4 +1,3 @@
-// import '../styles/Workout.css';
 import { Link } from "react-router-dom";
 
 function MyCategory({ category_id, name, about, year }) {
@@ -21,7 +20,7 @@ function MyCategory({ category_id, name, about, year }) {
                 <span className="item-card-meta">
                     View all expenses
                 </span>
-                <Link to={`/categories/${category_id}/expenses/${year}`} className="btn-secondary">
+                <Link to={`/categories/${category_id}/expenses`} className="btn-secondary">
                     Open →
                 </Link>
             </div>

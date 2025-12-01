@@ -1,4 +1,3 @@
-// import '../styles/Workout.css';
 import '../styles/PageLayout.css';
 import { Link } from "react-router-dom";
 

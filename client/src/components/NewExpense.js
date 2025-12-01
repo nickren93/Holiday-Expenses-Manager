@@ -9,6 +9,8 @@ function NewExpense() {
 
   const { allHolidays, setAllHolidays, allCategories, setAllCategories,
     handleNewExpense} = useContext(StateAndHandlerContext)
+
+  // const [selectedYear, setSelectedYear] = useState("");
   
   // get all latest holidays (including any new ones added by other users) from db
   useEffect(() => {
@@ -24,9 +26,25 @@ function NewExpense() {
       .then(setAllCategories);
   }, []);
 
+  // const holidaysThisYear = selectedYear
+  //   ? allHolidays.filter(h => String(h.year) === selectedYear)
+  //   : [];
+
   const formSchema = yup.object().shape({
-    amount: yup.number().required("Must enter the amount for this transaction."),
-    date: yup.date().required("Must enter a date"),
+    year: yup.string().required("Please select a year."),
+    amount: yup.number().required("Must enter the amount for this transaction.").
+    min(0.01, "Amount must be greater than $0.00."),
+    date: yup.date().required("Must enter a date").test(
+      "matches-selected-year",
+      "Date must be within the chosen year.",
+      function (value) {
+        const selectedYear = this.parent.year; // ← formik.values.year
+        if (!selectedYear || !value) return false;
+
+        const dateYear = new Date(value).getFullYear();
+        return String(dateYear) === String(selectedYear);
+      }
+    ),
     note: yup.string().required("Must enter a note about this transaction."),
     holiday_id: yup.string().required("Please select a holiday for this transaction."),
     category_id: yup.string().required("Please select a category for this transaction."),
@@ -34,6 +52,7 @@ function NewExpense() {
 
   const formik = useFormik({
     initialValues: {
+      year: "",
       amount: 0.00,
       date: "",
       note: "",
@@ -63,6 +82,10 @@ function NewExpense() {
     },
   });
 
+  const holidaysOfSelectedYear = formik.values.year
+    ? allHolidays.filter((h) => String(h.year) === String(formik.values.year))
+    : [];
+
   return (
 
     <div className="form-page">
@@ -82,27 +105,75 @@ function NewExpense() {
 
         <form onSubmit={formik.handleSubmit}>
 
-          {/* Holiday Select */}
+          {/* YEAR SELCET FIRST */}
+          <div className="form-group">
+            <label htmlFor="year" className="form-label"> Year</label>
+            <select
+              className="form-input"
+              id="year"
+              name="year"
+              value={formik.values.year}
+              onChange={(e) => {
+                formik.handleChange(e);
+                formik.setFieldValue("holiday_id", ""); // reset holiday selection
+              }}
+            > 
+              <option value="">-- Select Year --</option>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2027">2028</option>
+              <option value="2027">2029</option>
+            </select>
+            <p className="error-text">{formik.errors.year}</p>
+          </div>
+
+          
+          {/* Date */}
+          <div className="form-group">
+            <label htmlFor="date" className="form-label">Date</label>
+            <input
+              id="date"
+              name="date"
+              type="date"
+              pattern="\d{4}-\d{2}-\d{2}"
+              className="form-input"
+              onChange={formik.handleChange}
+              value={formik.values.date}
+              min={`${formik.values.year}-01-01`}
+              max={`${formik.values.year}-12-31`}
+            />
+            <p className="form-error">{formik.errors.date}</p>
+          </div>
+
+          {/* HOLIDAY DROPDOWN FILTERED BY YEAR */}
           <div className="form-group">
             <label htmlFor="holiday_id" className="form-label">Holiday</label>
+
             <select
               id="holiday_id"
               name="holiday_id"
               className="form-input"
               onChange={formik.handleChange}
               value={formik.values.holiday_id}
+              disabled={!formik.values.year}   // disable until year selected
             >
               <option value="">-- Choose a holiday --</option>
-              {allHolidays.map((h) => (
-                <option key={h.id} value={h.id}>
-                  {h.name}
-                </option>
+              {holidaysOfSelectedYear.map((h) => (
+                <option key={h.id} value={h.id}>{h.name}</option>
               ))}
             </select>
+
             <p className="form-error">{formik.errors.holiday_id}</p>
 
-            <Link to={`/newexpenses/newholiday`} className="link-inline">
-              Can't find your holiday? → Create one
+            <p className="small-text">Can't find your holiday?</p>
+            <Link to="/newexpenses/newholiday" className="btn-link">
+              Create one →
             </Link>
           </div>
 
@@ -154,21 +225,6 @@ function NewExpense() {
               value={formik.values.note}
             />
             <p className="form-error">{formik.errors.note}</p>
-          </div>
-
-          {/* Date */}
-          <div className="form-group">
-            <label htmlFor="date" className="form-label">Date</label>
-            <input
-              id="date"
-              name="date"
-              type="date"
-              pattern="\d{4}-\d{2}-\d{2}"
-              className="form-input"
-              onChange={formik.handleChange}
-              value={formik.values.date}
-            />
-            <p className="form-error">{formik.errors.date}</p>
           </div>
 
           {/* Submit */}

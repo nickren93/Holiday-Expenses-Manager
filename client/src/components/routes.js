@@ -19,7 +19,7 @@ const routes = [
                 element: <Home />,
                 children: [
                     {
-                        path: '/newexpense',
+                        path: '/expense/new',
                         element: <NewExpense />
                     },
                     // {
@@ -31,7 +31,7 @@ const routes = [
                         element: <HolidayExpenses />
                     },
                     {
-                        path:  '/categories/:category_id/expenses/:year',
+                        path:  '/categories/:category_id/expenses',
                         element: <CategoryExpenses />
                     },
                     {

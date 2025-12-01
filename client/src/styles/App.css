@@ -1,20 +1,99 @@
+/* ============================================
+   MAIN APP WRAPPER
+============================================ */
+
 .App {
+  flex: 1;                      /* For sticky footer layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 20px;
+
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
+
+
+/* ============================================
+   LOGO
+============================================ */
 
 #logo {
-  width: 120px;
-  margin-top: 10px;
+  width: 110px;
+  height: auto;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+
+  filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.15));
 }
 
+
+/* ============================================
+   APP TITLE
+============================================ */
+
 #mainTitle {
-  font-size: 2.2rem;
-  background: linear-gradient(90deg, #3a6186, #89253e);
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin: 0.5rem 0 0.3rem 0;
+
+  background: linear-gradient(90deg, #4F46E5, #89253e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+
+/* ============================================
+   SUBTITLE
+============================================ */
+
+.App h2 {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #4b5563;       /* slate-600 */
+}
+
+
+/* ============================================
+   INTRO PARAGRAPH
+============================================ */
+
+.App > p {
+  max-width: 720px;
+  margin: 0.8rem auto 1.6rem auto;
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.55;
+}
+
+
+/* ============================================
+   ROUTER CONTENT WRAPPER
+============================================ */
+
 .page-content {
-  padding-bottom: 160px; 
+  width: 100%;
+  margin-top: 1rem;
+  padding-bottom: 160px;   /* Space above sticky footer */
+}
+
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+
+@media (max-width: 600px) {
+  #mainTitle {
+    font-size: 1.9rem;
+  }
+
+  .App h2 {
+    font-size: 1.1rem;
+  }
+
+  #logo {
+    width: 90px;
+  }
 }

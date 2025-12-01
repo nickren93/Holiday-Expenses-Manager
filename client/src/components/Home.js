@@ -1,8 +1,8 @@
 import { useEffect, useContext } from "react";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 import { Outlet, Link } from 'react-router-dom';
 import Login from './Login';
-import NavBar from './NavBar';
+// import NavBar from './NavBar';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import '../styles/Home.css';
 
@@ -27,7 +27,7 @@ function Home(){
     if (!user) return(
         <main className="App">
             <Login />
-            <Footer />
+            {/* <Footer /> */}
         </main>
     ) 
 
@@ -39,7 +39,7 @@ function Home(){
         for(let j=0; j < myHolidays[i].expenses.length; j++){
             totalExpenses += myHolidays[i].expenses[j].amount;
         }
-    }
+    } //for each. replace later !!
 
     return(
         <main className="App">
@@ -52,7 +52,7 @@ function Home(){
                 </p>
 
                 <div className="hero-buttons">
-                    <Link to="/newexpense" className="btn-primary">➕ Add New Expense</Link>
+                    <Link to="/expense/new" className="btn-primary">➕ Add New Expense</Link>
                     <Link to="/myholidays" className="btn-secondary">View My Holidays →</Link>
                 </div>
             </div>
@@ -77,7 +77,7 @@ function Home(){
 
             {/* --- Keep your NavBar + Outlet exactly the same --- */}
             <div className="page-content">
-                <NavBar />
+                {/* <NavBar /> */}
                 <Outlet />
             </div>
 
@@ -103,7 +103,6 @@ function Home(){
                 </div>
             </section>
 
-            <Footer />
         </main>
     )         
 }

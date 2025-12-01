@@ -16,12 +16,14 @@ function NewHoliday() {
     const formSchema = yup.object().shape({
       name: yup.string().required("Must enter a holiday name."),
       description: yup.string().required("Must enter a description for this holiday."),
+      year: yup.number().required("Must choose a year.").min(1900).max(2150),
     });
 
     const formik = useFormik({
       initialValues: {
         name: "",
         description: "",
+        year: "",
       },
       validationSchema: formSchema,
       onSubmit: (newHoliday) => {
@@ -40,7 +42,7 @@ function NewHoliday() {
           ])
           console.log(allHolidays)
           formik.resetForm();
-          navigate("/newexpense");
+          navigate("/expense/new");
         })
       },
     });
@@ -61,6 +63,31 @@ function NewHoliday() {
       {/* FORM CARD */}
       <div className="form-card">
         <form onSubmit={formik.handleSubmit}>
+
+          {/* YEAR */}
+          <div className="form-group">
+              <label htmlFor="year" className="form-label">Year</label>
+              <select
+                  id="year"
+                  name="year"
+                  className="form-input"
+                  onChange={formik.handleChange}
+                  value={formik.values.year}
+              >
+                  <option value="">-- Select Year --</option>
+                  <option value="2020">2020</option>
+                  <option value="2021">2021</option>
+                  <option value="2022">2022</option>
+                  <option value="2023">2023</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                  <option value="2028">2028</option>
+                  <option value="2029">2029</option>
+              </select>
+              <p className="form-error"> {formik.errors.year}</p>
+          </div>
 
           {/* NAME */}
           <div className="form-group">

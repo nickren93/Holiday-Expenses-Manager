@@ -2,7 +2,7 @@ import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import HolidayExpense from "./HolidayExpense";
 import { StateAndHandlerContext } from '../context/stateAndHandler';
-import '../styles/PageLayout.css';
+import "../styles/ExpensePages.css";
 
 
 function HolidayExpenses() {
@@ -31,36 +31,30 @@ function HolidayExpenses() {
 
 
     if (!myHolidays || !currentHoliday) {
-        return (
-            <div className="section-container">
-                <h3>Loading expenses for current holiday...</h3>
-            </div>
-        );
+        return <h3 className="expense-loading">Loading expenses for current holiday...</h3>;
     }
 
+    const count = holidayExpenses.length || 0;
+
     return (
-        <div className="section-container">
-            {/* section header */}
-            <div className="section-header">
-                <div>
-                    <h2 className="section-title">
-                        <span className="section-title-emoji">💳</span>
-                        {currentHoliday.name} — {year}
-                    </h2>
-                    <p className="section-subtitle">Expenses for this holiday</p>
-                </div>
+        <div className="expense-page">
+            <div className="expense-page-header">
+                <h2>Expenses for {currentHoliday.name} — {year}</h2>
+                <p className="expense-page-subtitle">
+                    You have <strong>{count}</strong> expense{count === 1 ? "" : "s"} for this holiday in {year}.
+                </p>
             </div>
 
-            {holidayExpenses.length > 0 ? (
+            {count > 0 ? (
                 <div className="expense-list">
-                    <div className="expense-row expense-row-header">
+                    <div className="expense-list-header">
                         <span>Description</span>
                         <span>Date</span>
-                        <span className="expense-amount">Amount</span>
+                        <span>Amount</span>
                     </div>
 
                     {holidayExpenses.map((expense) => (
-                        <div key={expense.id} className="expense-row">
+                        <div className="expense-row" key={expense.id}>
                             <HolidayExpense
                                 expense={expense}
                                 holiday_id={holiday_id}
@@ -70,11 +64,7 @@ function HolidayExpenses() {
                     ))}
                 </div>
             ) : (
-                <div className="empty-state">
-                    <div className="empty-icon">🧳</div>
-                    <div className="empty-title">No expenses found</div>
-                    <div className="empty-text">Try selecting another year.</div>
-                </div>
+                <h4 className="expense-empty">No expenses found for this year.</h4>
             )}
         </div>
     );

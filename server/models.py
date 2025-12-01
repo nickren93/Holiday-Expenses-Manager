@@ -49,6 +49,8 @@ class Holiday(db.Model):
     name = db.Column(db.String, nullable=False)
     # duration = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String, nullable=False)
+    # add new column "year" to for front end to use (easy view based on year)
+    year = db.Column(db.Integer, nullable=False)
 
     expenses = db.relationship(
         'Expense', back_populates='holiday', cascade='all, delete-orphan')
@@ -70,6 +72,18 @@ class Holiday(db.Model):
         if not isinstance(value, str) or not value.strip():
             raise ValueError("A holiday must have a name and description.")
         return value
+    
+    @validates("year")
+    def validate_all_columns(self, key, value):
+        import datetime
+        current_year = datetime.date.today().year
+        try:
+            value = int(value)
+        except (TypeError, ValueError):
+            raise ValueError("Year must be a number.")
+        if value < 1900 or value > current_year + 5:
+            raise ValueError(f"Year must be between 1900 and {current_year + 4}.")
+        return value 
 
 class Category(db.Model):
     __tablename__='categories'
@@ -138,3 +152,34 @@ class Expense(db.Model):
             raise ValueError("Date must be a non-empty string.")
 
         return value
+    
+
+
+    # class Holiday(db.Model):
+    # __tablename__='holidays'
+
+    # id = db.Column(db.Integer, primary_key=True)
+    # name = db.Column(db.String, nullable=False)
+    # # duration = db.Column(db.Integer, nullable=False)
+    # description = db.Column(db.String, nullable=False)
+
+    # expenses = db.relationship(
+    #     'Expense', back_populates='holiday', cascade='all, delete-orphan')
+    
+    # users = db.relationship(
+    #     'User', secondary='expenses', viewonly=True, back_populates='holidays'
+    # )
+
+    # categories = db.relationship(
+    #     'Category', secondary='expenses', viewonly=True, back_populates='holidays'
+    # )
+
+    # # serialize_rules = ('-expenses','-users', '-categories') 
+
+    # @validates("name", "description")
+    # def validate_all_colums_for_holidays(self, key, value):
+    #     # if value is None or value.strip()=="":
+    #     #     raise ValueError("A holiday must have a name and a description.")
+    #     if not isinstance(value, str) or not value.strip():
+    #         raise ValueError("A holiday must have a name and description.")
+    #     return value

@@ -39,7 +39,7 @@ function NewCategory() {
           ])
           console.log(allCategories)
           formik.resetForm();
-          navigate("/newexpense");
+          navigate("/expense/new");
         })
       },
     });

@@ -172,3 +172,17 @@
     transform: translateY(0);
   }
 }
+
+
+.stat-card {
+  background: #F9FAFB;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 260px;
+  min-width: 220px;   /* ✅ prevent squeezing */
+  text-align: center; /* optional: center text */
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.06);
+  flex: 1 1 0;
+  transition: transform 0.16s ease-out, box-shadow 0.16s ease-out;
+}

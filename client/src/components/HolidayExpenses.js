@@ -67,6 +67,8 @@ function HolidayExpenses() {
                 <h4 className="expense-empty">No expenses found for this year.</h4>
             )}
 
+            <br/>
+
             {/* <button 
                 className="btn-secondary-outline" 
                 onClick={() => setEdit(true)}

@@ -55,6 +55,8 @@ function CategoryExpenses() {
                 <h4 className="expense-empty">No expenses found for this category.</h4>
             )}
 
+            <br/>
+
             <Link to={"/mycategories"} className="btn-secondary">
                 Back
             </Link>

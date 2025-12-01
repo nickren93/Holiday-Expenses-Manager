@@ -6,6 +6,7 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
 
     const [edit, setEdit] = useState(false);
     const [currentExpense, setCurrentExpense] = useState(expense)
+    const [originalExpense, setOriginalExpense] = useState(expense);
     const { setMyCategories, setMyHolidays, setHolidayExpenses, deleteCategoryExpense } 
     = useContext(StateAndHandlerContext)
 
@@ -30,7 +31,9 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
         .then(resp => resp.json())
         .then(newExpense =>{
             setCurrentExpense(newExpense)
-            // setHolidayExpenses(updatedHolidayExpenses) //
+            // keep updated original
+            setOriginalExpense(newExpense); 
+            // update category
             setMyCategories((prev) => 
                 prev.map((c) =>
                     c.id === parseInt(category_id)
@@ -43,9 +46,7 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
                     : c
                 )
             );
-            setHolidayExpenses((prev) =>
-                prev.map((e) => (e.id === newExpense.id ? newExpense : e))
-            );
+            // update holiday
             setMyHolidays((prev) => 
                 prev.map((h) =>
                     h.id === parseInt(holiday_id)
@@ -57,6 +58,10 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
                     }
                     : h
                 )
+            );
+            // update global holidayExpenses
+            setHolidayExpenses((prev) =>
+                prev.map((e) => (e.id === newExpense.id ? newExpense : e))
             );
             console.log(newExpense.user)
             setEdit(false) 
@@ -84,8 +89,11 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
         });
     }
 
+    /* ---------------------------------------------
+        NONE EDIT MODE 
+    ----------------------------------------------*/
     
-  if (!edit) {
+    if (!edit) {
         return (
             <>
                 <span>{currentExpense.note}</span>
@@ -101,7 +109,10 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
                         <div className="expanded-row-actions">
                             <button 
                                 className="btn-secondary-outline" 
-                                onClick={() => setEdit(true)}
+                                onClick={() => {
+                                    setOriginalExpense(currentExpense); // snapshot before edit
+                                    setEdit(true)
+                                }}
                             >
                                 Edit
                             </button>
@@ -183,7 +194,10 @@ function CategoryExpense({ expense, category_id, holiday_id }) {
                     <button 
                         type="button" 
                         className="btn-secondary-outline" 
-                        onClick={() => setEdit(false)}
+                        onClick={() => {
+                            setCurrentExpense(originalExpense); // restore original
+                            setEdit(false)
+                        }}
                     >
                         Cancel
                     </button>

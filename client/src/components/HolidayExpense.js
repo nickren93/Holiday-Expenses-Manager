@@ -5,7 +5,8 @@ import '../styles/PageLayout.css';
 function HolidayExpense({ expense, holiday_id, category_id }) {
 
     const [edit, setEdit] = useState(false);
-    const [currentExpense, setCurrentExpense] = useState(expense)
+    const [currentExpense, setCurrentExpense] = useState(expense) // Main display state
+    const [originalExpense, setOriginalExpense] = useState(expense); // Keeps original values so Cancel can restore them
     const { setMyHolidays, setMyCategories, setCategoryExpenses, deleteHolidayExpense } 
     = useContext(StateAndHandlerContext)
 
@@ -30,7 +31,9 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
         .then(resp => resp.json())
         .then(newExpense =>{
             setCurrentExpense(newExpense)
-            // setHolidayExpenses(updatedHolidayExpenses) //
+            // Keep updated original !!!!!!
+            setOriginalExpense(newExpense); 
+            // Update holiday state
             setMyHolidays((prev) => 
                 prev.map((h) =>
                     h.id === parseInt(holiday_id)
@@ -43,9 +46,7 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
                     : h
                 )
             );
-            setCategoryExpenses((prev) =>
-                prev.map((e) => (e.id === newExpense.id ? newExpense : e))
-            );
+             // Update category state
             setMyCategories((prev) => 
                 prev.map((c) =>
                     c.id === parseInt(category_id)
@@ -57,6 +58,10 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
                     }
                     : c
                 )
+            );
+            // Update global categoryExpenses list
+            setCategoryExpenses((prev) =>
+                prev.map((e) => (e.id === newExpense.id ? newExpense : e))
             );
             console.log(newExpense.user)
             setEdit(false) 
@@ -83,8 +88,11 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
             }
         });
     }
-    
 
+
+    /* ---------------------------------------------
+       NONE EDIT MODE 
+    ----------------------------------------------*/
     if (!edit) {
         return (
             <>
@@ -101,7 +109,10 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
                         <div className="expanded-row-actions">
                             <button 
                                 className="btn-secondary-outline" 
-                                onClick={() => setEdit(true)}
+                                onClick={() => {
+                                    setOriginalExpense(currentExpense); // snapshot original
+                                    setEdit(true)
+                                }}
                             >
                                 Edit
                             </button>
@@ -182,7 +193,10 @@ function HolidayExpense({ expense, holiday_id, category_id }) {
                     <button 
                         type="button" 
                         className="btn-secondary-outline" 
-                        onClick={() => setEdit(false)}
+                        onClick={() => {
+                            setCurrentExpense(originalExpense); // restore !!!!!!!!
+                            setEdit(false)
+                        }}
                     >
                         Cancel
                     </button>

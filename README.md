@@ -1,70 +1,153 @@
-# Getting Started with Create React App
+# Holiday Expenses Manager
+*A React + Flask full-stack application for tracking holiday-based and category-based expenses.*
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+**Holiday Expenses Manager** is a full-stack expense-tracking application built with:
 
-### `npm start`
+- **React (Frontend)**
+- **Flask + SQLAlchemy (Backend)**
+- **SQLite / PostgreSQL** compatible database
+- RESTful API architecture
+- Custom form validation (Yup + Flask validators)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The app allows users to:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Create and manage **holidays** (with year-based grouping)
+- Log **expenses** associated with both a **holiday** and a **category**
+- View expenses grouped by **Holiday → Year**
+- View expenses grouped by **Category**
+- Edit and delete expenses from multiple contexts
+- Automatically maintain correctness of state across Holidays/Categories
+- Fully authenticated workflow (Signup → Login → Dashboard)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Key Features
 
-### `npm run build`
+### User Accounts
+- Signup / Login / Logout
+- Secure password hashing using **bcrypt**
+- Session-based authentication
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Holiday Management
+- Holidays grouped automatically by **year**
+- Creating a new expense can **auto-create** a new holiday
+- Holidays update dynamically when expenses change
+- Automatic deletion of holidays with zero expenses
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Category Management
+- All expenses assigned to a category
+- Auto-create new categories when logging an expense
+- Categories disappear automatically when empty
+- Category-specific expense list view
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Expense Management
+- Create, edit, and delete expenses
+- Validation on amount, date, year, holiday, and category
+- Editing an expense updates **all related lists** (holiday + category + combined state)
+- Prevents invalid dates (must match chosen holiday year)
+- Prevents zero-dollar entries
 
-### `npm run eject`
+### Fully Synced Navigation
+- Homepage dashboard
+- My Holidays (grouped by year)
+- My Categories
+- Holiday → Expense detail views
+- Category → Expense detail views
+- Smart state updates without hard refresh
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Tech Stack
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Frontend
+- React  
+- React Router  
+- Context API  
+- Formik + Yup  
+- Custom reusable components  
+- CSS modules and custom theming  
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend
+- Flask  
+- Flask-RESTful  
+- Flask-SQLAlchemy  
+- Flask-Migrate  
+- Flask-Marshmallow  
+- Bcrypt  
 
-## Learn More
+### Database
+- SQLite (development)  
+- PostgreSQL (production-ready)  
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Structure
+Holiday-Expenses-Manager/
+│
+├── client/ # React frontend
+│ ├── src/
+│ │ ├── components/
+│ │ ├── context/
+│ │ ├── styles/
+│ │ ├── pages/
+│ │ └── App.js
+│ └── package.json
+│
+├── server/ # Flask backend
+│ ├── app.py
+│ ├── models.py
+│ ├── config.py
+│ ├── seed.py
+│ └── migrations/
+│
+├── README.md
+└── requirements.txt
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Getting Started
 
-### Analyzing the Bundle Size
+### 1. Clone Repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+git clone https://github.com/yourusername/Holiday-Expenses-Manager.git
+cd Holiday-Expenses-Manager
+```
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 2. Backend Setup
 
-### Advanced Configuration
+#### Create virtual environment:
+```bash
+cd server
+pipenv install
+pipenv shell
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+#### Initialize database:
+```bash
+flask db init
+flask db migrate -m "Initial tables"
+flask db upgrade
+```
 
-### Deployment
+#### Run Flask server:
+```bash
+flask run
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3. Frontend Setup
 
-### `npm run build` fails to minify
+#### Open a new terminal:
+```bash
+cd client
+npm install
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Frontend runs at: http://localhost:3000
+Backend runs at: http://localhost:5555

@@ -1,8 +1,6 @@
 import { useEffect, useContext } from "react";
-// import Footer from "./Footer";
 import { Outlet, Link } from 'react-router-dom';
 import Login from './Login';
-// import NavBar from './NavBar';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import '../styles/Home.css';
 

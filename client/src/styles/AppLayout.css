@@ -10,6 +10,14 @@
   background: #f8fafc;
 }
 
+.dashboard-layout.no-sidebar {
+  grid-template-columns: 1fr;
+}
+
+.dashboard-layout.no-sidebar .main-area {
+  grid-column: 1 / -1;
+}
+
 /* ====================================================== */
 /* SIDEBAR (LEFT)                                         */
 /* ====================================================== */
@@ -82,28 +90,51 @@
 .top-header {
   flex-shrink: 0;
   background: white;
-  padding: 1.7rem 2rem;
+  padding: 1.2rem 2rem;
   border-bottom: 1px solid #e5e7eb;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.04);
 
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;               /* updated: more space between logo & text */
 
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
+/* UPDATED: Make logo stand out more, larger, "brand badge" feel */
 #top-logo {
-  width: 90px;
+  width: 100px;            /* updated: bigger */
   height: auto;
-  border-radius: 10px;
+  border-radius: 14px;
+
+  padding: 8px;
+  background: linear-gradient(
+    135deg,
+    rgba(58, 97, 134, 0.15),
+    rgba(137, 37, 62, 0.15)
+  );
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* optional but recommended: subtle hover */
+#top-logo:hover {
+  transform: scale(1.04);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
 }
 
 .top-header-text h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;         /* updated: stronger title */
+  letter-spacing: -0.3px;  /* updated: slightly tighter */
   background: linear-gradient(90deg, #3a6186, #89253e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -132,21 +163,43 @@
   background: #f8fafc;
 }
 
+.dashboard-layout.no-sidebar .page-content {
+  padding-top: 1rem;
+  padding-bottom: 4rem;
+}
+
 /* ====================================================== */
 /* FIXED FOOTER                                           */
 /* ====================================================== */
 
 footer.footer {
   flex-shrink: 0;
-  background: #1f2937;       /* Dark slate */
+  background: #1f2937;
   color: white;
-  padding: 1.4rem 2rem;
+  padding: 0.8rem 1.5rem;
   border-top: 1px solid #374151;
 
   position: sticky;
   bottom: 0;
   z-index: 10;
   width: 100%;
+
+  font-size: 0.85rem;
+}
+
+footer.footer .footer-section h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+footer.footer .footer-section p,
+footer.footer .footer-section address {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+footer.footer details {
+  margin-top: 0.25rem;
 }
 
 .footer-section h3 {
@@ -162,4 +215,21 @@ footer.footer {
 .footer-section a:hover {
   color: white;
   text-decoration: underline;
+}
+
+/* ====================================================== */
+/* RESPONSIVE                                             */
+/* ====================================================== */
+
+@media (max-width: 768px) {
+  #top-logo {
+    width: 90px;
+    padding: 6px;
+  }
+
+  .top-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }

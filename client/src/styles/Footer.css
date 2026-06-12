@@ -1,66 +1,66 @@
 /* ================================
-   FOOTER — Modern SaaS Theme
+   FOOTER — Compact SaaS Theme
 ================================ */
 
 .footer {
   width: 100%;
-  background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  padding: 2.5rem 1.5rem;
-  margin-top: 3rem;
+  background: #1f2937;
+  border-top: 1px solid #374151;
+  padding: 0.8rem 1.5rem;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1.2rem;
 
-  color: #374151;
-  font-size: 0.95rem;
+  color: #d1d5db;
+  font-size: 0.85rem;
+  box-sizing: border-box;
 }
 
 /* Section Titles */
 .footer-section h3 {
-  margin-bottom: 0.6rem;
-  font-size: 1.1rem;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #111827;
+  color: #f3f4f6;
 }
 
 /* Paragraph & Address Styling */
 .footer-section p,
 .footer-section address {
   margin: 0;
-  line-height: 1.5;
-  color: #4b5563;
+  line-height: 1.35;
+  color: #d1d5db;
   font-style: normal;
-  font-size: 0.93rem;
+  font-size: 0.82rem;
 }
 
-/* LINK STYLES */
+/* Link Styles */
 .footer-section a {
-  color: #4F46E5;
+  color: #e5e7eb;
   text-decoration: none;
   font-weight: 500;
 }
 
 .footer-section a:hover {
-  color: #3730A3;
+  color: #ffffff;
   text-decoration: underline;
 }
 
-/* DETAILS DISCLOSURE */
+/* Details Disclosure */
 .footer-section details {
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   cursor: pointer;
-  color: #374151;
+  color: #d1d5db;
 }
 
 .footer-section summary {
   font-weight: 500;
-  color: #6b7280;
+  color: #d1d5db;
 }
 
 .footer-section details p {
-  margin-top: 0.4rem;
+  margin-top: 0.25rem;
 }
 
 /* Mobile responsive improvements */
@@ -68,5 +68,6 @@
   .footer {
     text-align: center;
     grid-template-columns: 1fr;
+    padding: 0.9rem 1rem;
   }
 }

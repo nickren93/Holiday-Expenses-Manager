@@ -29,7 +29,7 @@ function MyHolidays(){
                     <div className="empty-text">
                         You haven’t added any holidays. Start by creating your first expense (it will create a holiday automatically).
                     </div>
-                    <Link to={`/newexpense`} className="btn-primary" style={{ marginTop: "1rem" }}>
+                    <Link to={`/expense/new`} className="btn-primary" style={{ marginTop: "1rem" }}>
                         + Create an Expense
                     </Link>
                 </div>
@@ -48,7 +48,7 @@ function MyHolidays(){
             holidaysByYear[year] = [];
         }
         holidaysByYear[year].push(holiday);
-    });
+    });  // sort by year directly
 
     // Step 3: make a list of all years and sort them newest first
     const sortedYears = Object.keys(holidaysByYear).sort((a, b) => b.localeCompare(a));
@@ -68,7 +68,7 @@ function MyHolidays(){
                 </div>
 
                 <div className="section-actions">
-                    <Link to="/newexpense" className="btn-primary">+ Add Expense</Link>
+                    <Link to="/expense/new" className="btn-primary">+ Add Expense</Link>
                 </div>
             </div>
 

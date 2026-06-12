@@ -1,55 +1,132 @@
 import { Outlet } from 'react-router-dom';
-import HEM_Logo from '../HEM_Logo.png';
-import { StateAndHandlerProvider } from '../context/stateAndHandler';
+import { useContext } from 'react';
+import TL_Logo from '../TL_Logo.png';
+import { StateAndHandlerProvider, StateAndHandlerContext } from '../context/stateAndHandler';
 import '../styles/AppLayout.css';
 import NavBar from './NavBar';
 import Footer from './Footer';
 
-function App() {
+function AppContent() {
+
+  const { user } = useContext(StateAndHandlerContext);
 
   return (
-    <StateAndHandlerProvider>
+    <div className={`dashboard-layout ${user ? "" : "no-sidebar"}`}>
 
-      <div className="dashboard-layout">
-
-        {/* LEFT SIDEBAR */}
+      {/* LEFT SIDEBAR - only show when user is logged in */}
+      {user && (
         <aside className="sidebar">
           <NavBar />
         </aside>
+      )}
 
-        {/* MAIN AREA */}
-        <div className="main-area">
+      {/* MAIN AREA */}
+      <div className="main-area">
 
-          {/* TOP HEADER */}
-          <header className="top-header">
-            <img id="top-logo" src={HEM_Logo} alt="Logo" />
-            <div className="top-header-text">
-              <h1>Holiday Expenses Manager</h1>
-              <h2>Track your holiday expenses and use your money wisely!</h2>
-              <p>
-                Welcome to your personal Holiday Expense Manager — 
-                track, plan and organize your holiday spending!
-              </p>
-            </div>
-          </header>
+        {/* TOP HEADER */}
+        <header className="top-header">
+          <img id="top-logo" src={TL_Logo} alt="TripLedger Logo" />
 
-          {/* PAGE CONTENT */}
-          <main className="page-content">
-            <Outlet />
-          </main>
+          <div className="top-header-text">
+            <h1>TripLedger</h1>
+            <h2>Track your holiday trip expenses and use your money wisely!</h2>
+            <p>
+              Welcome to your personal trip expense manager — 
+              track, plan and organize your holiday spending!
+            </p>
+          </div>
+        </header>
 
-          {/* FOOTER */}
-          <Footer />
+        {/* PAGE CONTENT */}
+        <main className="page-content">
+          <Outlet />
+        </main>
 
-        </div>
+        {/* FOOTER */}
+        <Footer />
 
       </div>
 
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <StateAndHandlerProvider>
+      <AppContent />
     </StateAndHandlerProvider>
   );
 }
 
 export default App;
+
+
+
+
+
+
+// ======================================================================================================================
+// ======================================================================================================================
+// ======================================================================================================================
+// ======================================================================================================================
+
+
+
+// import { Outlet } from 'react-router-dom';
+// import TL_Logo from '../TL_Logo.png';
+// import { StateAndHandlerProvider } from '../context/stateAndHandler';
+// import '../styles/AppLayout.css';
+// import NavBar from './NavBar';
+// import Footer from './Footer';
+
+// function App() {
+
+//   return (
+//     <StateAndHandlerProvider>
+
+//       <div className="dashboard-layout">
+
+//         {/* LEFT SIDEBAR */}
+//         <aside className="sidebar">
+//           <NavBar />
+//         </aside>
+
+//         {/* MAIN AREA */}
+//         <div className="main-area">
+
+//           {/* TOP HEADER */}
+//           <header className="top-header">
+//             <img id="top-logo" src={TL_Logo} alt="Logo" />
+//             <div className="top-header-text">
+//               <h1>TripLedger</h1>
+//               <h2>Track your holiday trip expenses and use your money wisely!</h2>
+//               <p>
+//                 Welcome to your personal trip expense manager — 
+//                 track, plan and organize your holiday spending!
+//               </p>
+//             </div>
+//           </header>
+
+//           {/* PAGE CONTENT */}
+//           <main className="page-content">
+//             <Outlet />
+//           </main>
+
+//           {/* FOOTER */}
+//           <Footer />
+
+//         </div>
+
+//       </div>
+
+//     </StateAndHandlerProvider>
+//   );
+// }
+
+// export default App;
+
+
 
 
 

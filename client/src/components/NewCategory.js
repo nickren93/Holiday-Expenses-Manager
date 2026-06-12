@@ -102,8 +102,8 @@ function NewCategory() {
         </div>
 
         {/* BACK BUTTON */}
-        <Link to={`/newexpense`} className="btn-secondary" style={{ marginTop: "1.5rem" }}>
-            ← Back
+        <Link to={`/`} className="btn-secondary" style={{ marginTop: "1.5rem" }}>
+            ← Back to Dashboard
         </Link>
 
       </div>

@@ -20,7 +20,7 @@ function MyCategory({ category_id, name, about, year }) {
                 <span className="item-card-meta">
                     View all expenses
                 </span>
-                <Link to={`/categories/${category_id}/expenses`} className="btn-secondary">
+                <Link to={`/mycategories/${category_id}/expenses`} className="btn-secondary">
                     Open →
                 </Link>
             </div>

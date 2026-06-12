@@ -1,46 +1,53 @@
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 3rem 1rem;
-  min-height: 70vh;
+  align-items: flex-start;
+
+  padding: 1.5rem 1rem 2.5rem 1rem;
+  min-height: auto;
 }
 
+/* Main login/signup card */
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 430px;
   background: #ffffff;
   padding: 2rem 2.2rem;
-  border-radius: 14px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
   text-align: center;
+  border: 1px solid #e5e7eb;
+
+  /* keeps it visually higher and away from footer */
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
 }
 
 /* ----------- TITLES ----------- */
 
 .auth-title {
   font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #1f2937;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.45rem;
 }
 
 .auth-subtitle {
   font-size: 0.95rem;
   color: #6b7280;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.4rem;
 }
 
 /* ----------- FORM WRAPPER ----------- */
 
 .auth-form-wrapper {
-  margin-top: 1rem;
+  margin-top: 0.8rem;
 }
 
 /* ----------- SWITCH TEXT ----------- */
 
 .auth-switch {
-  margin-top: 1.8rem;
+  margin-top: 1.4rem;
   color: #4b5563;
   font-size: 0.95rem;
 }
@@ -59,4 +66,23 @@
 
 .btn-text:hover {
   color: #3730A3;
+  background: none;
+}
+
+/* ----------- RESPONSIVE ----------- */
+
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 1rem 0.75rem 2rem 0.75rem;
+  }
+
+  .auth-card {
+    padding: 1.6rem 1.4rem;
+    border-radius: 14px;
+    margin-top: 0;
+  }
+
+  .auth-title {
+    font-size: 1.5rem;
+  }
 }

@@ -27,11 +27,11 @@ const routes = [
                     //     element: <HolidayExpenses />
                     // },
                     {
-                        path: "/holidays/:holiday_id/expenses/:year",
+                        path: "/myholidays/:holiday_id/expenses/:year",
                         element: <HolidayExpenses />
                     },
                     {
-                        path:  '/categories/:category_id/expenses',
+                        path:  '/mycategories/:category_id/expenses',
                         element: <CategoryExpenses />
                     },
                     {

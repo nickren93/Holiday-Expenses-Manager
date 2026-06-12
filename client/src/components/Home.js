@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import Login from './Login';
 import { StateAndHandlerContext } from '../context/stateAndHandler';
 import '../styles/Home.css';
@@ -8,6 +8,8 @@ function Home(){
 
     const { user, setUser, setMyHolidays, setMyCategories, myHolidays, myCategories } 
     = useContext(StateAndHandlerContext);
+
+    const location = useLocation();
 
     useEffect(() => {
         // auto-login
@@ -22,40 +24,51 @@ function Home(){
         });
     }, []);
 
-    if (!user) return(
-        <main className="App">
-            <Login />
-            {/* <Footer /> */}
-        </main>
-    ) 
+    if (!user) {
+        return(
+            <main className="App">
+                <Login />
+            </main>
+        );
+    }
 
-    // Stats
-    // const totalExpenses = myExpenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
+    // If user is logged in but NOT on dashboard page,
+    // only show the child route page.
+    if (location.pathname !== "/") {
+        return <Outlet />;
+    }
 
     let totalExpenses = 0;
-    for(let i=0; i < myHolidays.length; i++){
-        for(let j=0; j < myHolidays[i].expenses.length; j++){
+
+    for(let i = 0; i < myHolidays.length; i++){
+        for(let j = 0; j < myHolidays[i].expenses.length; j++){
             totalExpenses += myHolidays[i].expenses[j].amount;
         }
-    } //for each. replace later !!
+    }
 
     return(
         <main className="App">
 
-            {/* --- NEW: Better Welcome Section --- */}
+            {/* Welcome Section */}
             <div className="home-hero">
                 <h1>Welcome back, {user.name}! 👋</h1>
+
                 <p className="subtitle">
-                    Manage all your holiday expenses in one place.
+                    Manage all your trip expenses in one place.
                 </p>
 
                 <div className="hero-buttons">
-                    <Link to="/expense/new" className="btn-primary">➕ Add New Expense</Link>
-                    <Link to="/myholidays" className="btn-secondary">View My Holidays →</Link>
+                    <Link to="/expense/new" className="btn-primary">
+                        ➕ Add New Expense
+                    </Link>
+
+                    <Link to="/myholidays" className="btn-secondary">
+                        View My Holidays →
+                    </Link>
                 </div>
             </div>
 
-            {/* --- NEW: Dashboard Stats --- */}
+            {/* Dashboard Stats */}
             <section className="stats-section">
                 <div className="stat-card">
                     <h3>Total Expenses</h3>
@@ -73,13 +86,7 @@ function Home(){
                 </div>
             </section>
 
-            {/* --- Keep your NavBar + Outlet exactly the same --- */}
-            <div className="page-content">
-                {/* <NavBar /> */}
-                <Outlet />
-            </div>
-
-            {/* --- NEW: Quick Actions --- */}
+            {/* Quick Actions */}
             <section className="quick-actions">
                 <h2>Quick Actions</h2>
 
@@ -94,7 +101,7 @@ function Home(){
                         <p>Organize your spending better</p>
                     </Link>
 
-                    <Link className="action-card" to="/newexpense">
+                    <Link className="action-card" to="/expense/new">
                         <h4>Add an Expense</h4>
                         <p>Track your new spending</p>
                     </Link>
@@ -102,10 +109,262 @@ function Home(){
             </section>
 
         </main>
-    )         
+    );         
 }
 
 export default Home;
+
+
+
+
+
+
+
+// ====================================================================================================================
+// ====================================================================================================================
+// ====================================================================================================================
+// ====================================================================================================================
+
+
+
+
+
+
+
+
+
+// import { useEffect, useContext } from "react";
+// import { Outlet, Link } from 'react-router-dom';
+// import Login from './Login';
+// import { StateAndHandlerContext } from '../context/stateAndHandler';
+// import '../styles/Home.css';
+
+// function Home(){
+
+//     const { user, setUser, setMyHolidays, setMyCategories, myHolidays, myCategories } 
+//     = useContext(StateAndHandlerContext);
+
+//     useEffect(() => {
+//         // auto-login
+//         fetch("/check_session").then((r) => {
+//             if (r.ok) {
+//                 r.json().then((user) => {
+//                     setUser(user);
+//                     setMyHolidays(user.holidays);
+//                     setMyCategories(user.categories);
+//                 });
+//             }
+//         });
+//     }, []);
+
+//     if (!user) {
+//         return(
+//             <main className="App">
+//                 <Login />
+//             </main>
+//         );
+//     }
+
+//     let totalExpenses = 0;
+
+//     for(let i = 0; i < myHolidays.length; i++){
+//         for(let j = 0; j < myHolidays[i].expenses.length; j++){
+//             totalExpenses += myHolidays[i].expenses[j].amount;
+//         }
+//     }
+
+//     return(
+//         <main className="App">
+
+//             {/* Welcome Section */}
+//             <div className="home-hero">
+//                 <h1>Welcome back, {user.name}! 👋</h1>
+
+//                 <p className="subtitle">
+//                     Manage all your trip expenses in one place.
+//                 </p>
+
+//                 <div className="hero-buttons">
+//                     <Link to="/expense/new" className="btn-primary">
+//                         ➕ Add New Expense
+//                     </Link>
+
+//                     <Link to="/myholidays" className="btn-secondary">
+//                         View My Holidays →
+//                     </Link>
+//                 </div>
+//             </div>
+
+//             {/* Dashboard Stats */}
+//             <section className="stats-section">
+//                 <div className="stat-card">
+//                     <h3>Total Expenses</h3>
+//                     <p className="stat-number">${totalExpenses.toFixed(2)}</p>
+//                 </div>
+
+//                 <div className="stat-card">
+//                     <h3>Your Holidays</h3>
+//                     <p className="stat-number">{myHolidays?.length || 0}</p>
+//                 </div>
+
+//                 <div className="stat-card">
+//                     <h3>Your Categories</h3>
+//                     <p className="stat-number">{myCategories?.length || 0}</p>
+//                 </div>
+//             </section>
+
+//             {/* Nested routes render here if needed */}
+//             <Outlet />
+
+//             {/* Quick Actions */}
+//             <section className="quick-actions">
+//                 <h2>Quick Actions</h2>
+
+//                 <div className="actions-grid">
+//                     <Link className="action-card" to="/newexpenses/newholiday">
+//                         <h4>Create a New Holiday</h4>
+//                         <p>Start planning your next event</p>
+//                     </Link>
+
+//                     <Link className="action-card" to="/newexpenses/newcategory">
+//                         <h4>Create a New Category</h4>
+//                         <p>Organize your spending better</p>
+//                     </Link>
+
+//                     <Link className="action-card" to="/expense/new">
+//                         <h4>Add an Expense</h4>
+//                         <p>Track your new spending</p>
+//                     </Link>
+//                 </div>
+//             </section>
+
+//         </main>
+//     );         
+// }
+
+// export default Home;
+
+
+
+
+
+
+
+// import { useEffect, useContext } from "react";
+// import { Outlet, Link } from 'react-router-dom';
+// import Login from './Login';
+// import { StateAndHandlerContext } from '../context/stateAndHandler';
+// import '../styles/Home.css';
+
+// function Home(){
+
+//     const { user, setUser, setMyHolidays, setMyCategories, myHolidays, myCategories } 
+//     = useContext(StateAndHandlerContext);
+
+//     useEffect(() => {
+//         // auto-login
+//         fetch("/check_session").then((r) => {
+//             if (r.ok) {
+//                 r.json().then((user) => {
+//                     setUser(user);
+//                     setMyHolidays(user.holidays);
+//                     setMyCategories(user.categories);
+//                 });
+//             }
+//         });
+//     }, []);
+
+//     if (!user) return(
+//         <main className="App">
+//             <Login />
+//             {/* <Footer /> */}
+//         </main>
+//     ) 
+
+//     // Stats
+//     // const totalExpenses = myExpenses?.reduce((sum, e) => sum + e.amount, 0) || 0;
+
+//     let totalExpenses = 0;
+//     for(let i=0; i < myHolidays.length; i++){
+//         for(let j=0; j < myHolidays[i].expenses.length; j++){
+//             totalExpenses += myHolidays[i].expenses[j].amount;
+//         }
+//     } //for each. replace later !!
+
+//     return(
+//         <main className="App">
+
+//             {/* --- NEW: Better Welcome Section --- */}
+//             <div className="home-hero">
+//                 <h1>Welcome back, {user.name}! 👋</h1>
+//                 <p className="subtitle">
+//                     Manage all your holiday expenses in one place.
+//                 </p>
+
+//                 <div className="hero-buttons">
+//                     <Link to="/expense/new" className="btn-primary">➕ Add New Expense</Link>
+//                     <Link to="/myholidays" className="btn-secondary">View My Holidays →</Link>
+//                 </div>
+//             </div>
+
+//             {/* --- NEW: Dashboard Stats --- */}
+//             <section className="stats-section">
+//                 <div className="stat-card">
+//                     <h3>Total Expenses</h3>
+//                     <p className="stat-number">${totalExpenses.toFixed(2)}</p>
+//                 </div>
+
+//                 <div className="stat-card">
+//                     <h3>Your Holidays</h3>
+//                     <p className="stat-number">{myHolidays?.length || 0}</p>
+//                 </div>
+
+//                 <div className="stat-card">
+//                     <h3>Your Categories</h3>
+//                     <p className="stat-number">{myCategories?.length || 0}</p>
+//                 </div>
+//             </section>
+
+//             {/* --- Keep your NavBar + Outlet exactly the same --- */}
+//             <div className="page-content">
+//                 {/* <NavBar /> */}
+//                 <Outlet />
+//             </div>
+
+//             {/* --- NEW: Quick Actions --- */}
+//             <section className="quick-actions">
+//                 <h2>Quick Actions</h2>
+
+//                 <div className="actions-grid">
+//                     <Link className="action-card" to="/newexpenses/newholiday">
+//                         <h4>Create a New Holiday</h4>
+//                         <p>Start planning your next event</p>
+//                     </Link>
+
+//                     <Link className="action-card" to="/newexpenses/newcategory">
+//                         <h4>Create a New Category</h4>
+//                         <p>Organize your spending better</p>
+//                     </Link>
+
+//                     <Link className="action-card" to="/newexpense">
+//                         <h4>Add an Expense</h4>
+//                         <p>Track your new spending</p>
+//                     </Link>
+//                 </div>
+//             </section>
+
+//         </main>
+//     )         
+// }
+
+// export default Home;
+
+
+
+
+
+
+
 
 
 

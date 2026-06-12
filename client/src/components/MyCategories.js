@@ -29,7 +29,7 @@ function MyCategories(){
                     <div className="empty-text">
                         Categories help you organize expenses. Start by adding one!
                     </div>
-                    <Link to={`/newexpense`} className="btn-primary" style={{ marginTop: "1rem" }}>
+                    <Link to={`/expense/new`} className="btn-primary" style={{ marginTop: "1rem" }}>
                         + Create an Expense
                     </Link>
                 </div>
@@ -49,7 +49,7 @@ function MyCategories(){
                 </div>
 
                 <div className="section-actions">
-                    <Link to="/newexpense" className="btn-primary">+ Add Expense</Link>
+                    <Link to="/expense/new" className="btn-primary">+ Add Expense</Link>
                 </div>
             </div>
 

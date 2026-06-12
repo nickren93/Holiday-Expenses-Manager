@@ -305,3 +305,85 @@
   color: white;
   border-color: #4F46E5;
 }
+
+
+/* ======================================================
+   Compact New Expense Page
+====================================================== */
+
+.expense-form-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0.25rem 1rem 1.5rem 1rem;
+  box-sizing: border-box;
+}
+
+.expense-form-card {
+  max-width: 720px;
+  margin: 0 auto 1.5rem auto;
+  padding: 1.4rem 1.5rem;
+}
+
+.expense-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.expense-form-title {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.expense-form-subtitle {
+  margin-top: 0.15rem;
+  font-size: 0.9rem;
+}
+
+.expense-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1rem;
+  row-gap: 0.75rem;
+}
+
+.expense-submit-btn {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.expense-form-grid .link-inline {
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+}
+
+.expense-form-grid .form-error {
+  min-height: 1rem;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .expense-form-page {
+    padding: 0.5rem 0.75rem 1.5rem 0.75rem;
+  }
+
+  .expense-form-card {
+    max-width: 100%;
+    padding: 1.2rem 1rem;
+  }
+
+  .expense-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .expense-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
